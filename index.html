@@ -1,0 +1,1411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jules Wabbes — Belgian furniture designer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  /* Brand display font — served from the live Jules Wabbes site */
+  @font-face{
+    font-family:'Compacta';
+    src:url('https://jules-wabbes.redsheep.be/wp-content/uploads/2026/06/unicode.compacta.woff2') format('woff2'),
+        url('https://jules-wabbes.redsheep.be/wp-content/uploads/2026/06/unicode.compacta.woff') format('woff'),
+        url('https://jules-wabbes.redsheep.be/wp-content/uploads/2026/06/CompactaLetPlain.ttf') format('truetype');
+    font-weight:400;font-style:normal;font-display:swap;
+  }
+  @font-face{
+    font-family:'CompactaLetPlain';
+    src:url('https://jules-wabbes.redsheep.be/wp-content/uploads/2026/06/CompactaLetPlain.ttf') format('truetype');
+    font-weight:400;font-style:normal;font-display:swap;
+  }
+  :root{
+    --bg:#FFFFFF; --ink:#000000; --muted:#111111; --muted2:#9A9A9A;
+    --body:#111111; --brass:#000000; --hover:#5E5E5E; --neutral:#ECECEC; --neutral2:#E8E8E8; --neutral3:#E2E2E2;
+    --hatch-light:repeating-linear-gradient(135deg,transparent,transparent 12px,rgba(0,0,0,0.05) 12px,rgba(0,0,0,0.05) 13px);
+    --hatch-dark:repeating-linear-gradient(135deg,transparent,transparent 13px,rgba(255,255,255,0.06) 13px,rgba(255,255,255,0.06) 14px);
+  }
+  html,body{margin:0;padding:0}
+  body{background:var(--bg);color:var(--body);font-family:'Courier Prime',monospace;line-height:1.6;letter-spacing:0.4px;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  *{box-sizing:border-box}
+  input,textarea,button,select{font-family:'Courier Prime',monospace}
+  ::placeholder{color:var(--muted2)}
+  h1,h2{font-family:'CompactaLetPlain','Compacta',sans-serif;font-weight:400;text-transform:uppercase}
+  /* Long-form reading text — Courier Prime, matching the live site */
+  .prose{font-family:'Courier Prime',monospace;font-size:15px;line-height:1.8;letter-spacing:0.6px;color:var(--body)}
+  .ph{display:flex;align-items:flex-end;background-color:var(--neutral);background-image:var(--hatch-light)}
+  .ph span{font-family:'Courier Prime',monospace;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted)}
+  .lnk{cursor:pointer}
+  .lnk:hover{color:var(--hover)}
+  .btn-fill{background:var(--ink);color:var(--bg);border:1px solid var(--ink);cursor:pointer;transition:background .2s,border-color .2s}
+  .btn-fill:hover{background:var(--hover);border-color:var(--hover)}
+  .btn-out{background:transparent;color:var(--ink);border:1px solid var(--ink);cursor:pointer;transition:background .2s,color .2s}
+  .btn-out:hover{background:#000;color:#fff;border-color:#000}
+  .btn-ghost{background:transparent;border:none;cursor:pointer;color:var(--ink);transition:color .2s}
+  .btn-ghost:hover{color:var(--hover)}
+  .card{cursor:pointer}
+  .card .name{transition:color .2s}
+  .card:hover .name{color:var(--hover)!important}
+  .card .arrow{transition:transform .2s}
+  .card:hover .arrow{transform:translateX(4px)}
+  /* Accordion (dérouler) */
+  .acc{border-top:1px solid #111111}
+  .acc summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:16px;
+    padding:18px 0;font-family:'Courier Prime',monospace;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink)}
+  .acc summary::-webkit-details-marker{display:none}
+  .acc summary::after{content:'+';font-family:'Courier Prime',monospace;font-size:18px;color:var(--ink);transition:transform .2s}
+  .acc[open] summary::after{content:'–'}
+  .acc summary:hover{color:var(--hover)}
+  .acc-flush > .acc{border-top:none}
+  .spec-table > div:last-child{border-bottom:none!important}
+  .rel-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:1px solid #000;border-left:1px solid #000;border-right:1px solid #000}
+  .rel-grid > *{border-right:1px solid #000;border-bottom:1px solid #000}
+  .rel-grid > *:nth-child(4n){border-right:none}
+  .rel-grid .cell-foot{min-height:56px;align-items:center}
+  @media(max-width:860px){ .rel-grid{grid-template-columns:1fr 1fr} }
+  @media(max-width:560px){ .rel-grid{grid-template-columns:1fr} }
+  .acc .acc-body{padding:0 0 26px}
+  /* Collection grid — full-width framed catalogue (shared black grid lines) */
+  .col-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0}
+  .col-grid > *{border-right:1px solid #000;border-bottom:1px solid #000}
+  .col-grid > *:nth-child(4n){border-right:none}
+  .cell{display:flex;flex-direction:column}
+  .cell .cell-foot{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:18px 18px;border-top:1px solid #000;margin-top:auto}
+  .col-grid .cell-foot{min-height:60px;align-items:center}
+  .cell .arrow{font-size:18px;color:#000;transition:transform .2s}
+  .cell:hover .arrow{transform:translateX(4px)}
+  .cat-tab{position:absolute;top:14px;right:14px;font-family:'Courier Prime',monospace;font-size:9px;letter-spacing:0.16em;text-transform:uppercase;color:#000;background:#fff;border:1px solid #000;padding:6px 11px}
+  .corner-tab{position:absolute;top:14px;left:14px;font-family:'Courier Prime',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:#000;background:#fff;border:1px solid #000;padding:6px 11px}
+  .j-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:36px}
+  /* Toast */
+  #toast{position:fixed;left:50%;bottom:30px;transform:translateX(-50%) translateY(20px);opacity:0;pointer-events:none;
+    background:var(--ink);color:var(--bg);font-family:'Courier Prime',monospace;font-size:12px;letter-spacing:0.08em;
+    padding:14px 22px;transition:opacity .25s,transform .25s;z-index:80;max-width:90vw}
+  #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+  /* Header dropdowns */
+  .navitem{position:relative}
+  .navlabel{font-family:'Courier Prime',monospace;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:#000;padding:15px 0;cursor:pointer}
+  .dd{position:absolute;top:100%;left:50%;transform:translateX(-50%);background:#fff;border:1px solid #000;display:none;z-index:40;min-width:210px}
+  .navitem:hover .dd{display:block}
+  .dd .ditem{display:block;padding:13px 22px;font-family:'Courier Prime',monospace;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:#000;white-space:nowrap;cursor:pointer;transition:background .15s,color .15s}
+  .dd .ditem:hover{background:#000;color:#fff}
+  .dd.mega{left:0;transform:none;min-width:0;border:none;background:transparent}
+  .navitem:hover .dd.mega{display:block}
+  .mega-wrap{position:relative}
+  .mega-left{display:flex;flex-direction:column;width:200px;background:#fff;border:1px solid #000}
+  .megacat{padding:14px 22px;font-family:'Courier Prime',monospace;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:#000;cursor:pointer;transition:background .15s,color .15s}
+  .megacat:hover{background:#000;color:#fff}
+  .subpanel{position:absolute;top:0;left:100%;display:none;flex-direction:column;padding:6px 0;min-width:200px;background:#fff;border:1px solid #000;border-left:none}
+  /* a sub-panel (sub-sub-menu) appears ONLY when its category is hovered (or the panel itself) */
+  .mega-wrap:has(.c-lighting:hover) .s-lighting,.mega-wrap:has(.s-lighting:hover) .s-lighting,
+  .mega-wrap:has(.c-furniture:hover) .s-furniture,.mega-wrap:has(.s-furniture:hover) .s-furniture,
+  .mega-wrap:has(.c-accessories:hover) .s-accessories,.mega-wrap:has(.s-accessories:hover) .s-accessories{display:flex}
+  /* keep the hovered category highlighted while on its sub-panel */
+  .mega-wrap:has(.s-lighting:hover) .c-lighting,.mega-wrap:has(.s-furniture:hover) .c-furniture,.mega-wrap:has(.s-accessories:hover) .c-accessories{background:#000;color:#fff}
+  @media(max-width:860px){ .dd,.dd.mega{display:none!important} }
+  /* ---------- Responsive ---------- */
+  @media(max-width:860px){
+    .row-split,.row-2,.row-3,.row-4,.cats,.projects,.footer-cols{flex-direction:column!important}
+    .row-split>*,.row-2>*,.row-3>*,.row-4>*,.cats>*,.projects>*{flex:1 1 100%!important;border-right:none!important}
+    .cats>*{border-bottom:1px solid var(--ink)}
+    .pad-x{padding-left:22px!important;padding-right:22px!important}
+    .pad-block{padding-left:22px!important;padding-right:22px!important}
+    h1{font-size:26px!important}
+    h2{font-size:26px!important}
+    .nav{gap:16px!important;flex-wrap:wrap;justify-content:flex-start!important}
+    .search{display:none!important}
+    .col-grid{grid-template-columns:1fr 1fr}
+    .col-grid > *{border-right:1px solid #000}
+    .col-grid > *:nth-child(4n){border-right:1px solid #000}
+    .col-grid > *:nth-child(2n){border-right:none}
+    .j-grid{grid-template-columns:1fr}
+  }
+  @media(max-width:560px){
+    .col-grid{grid-template-columns:1fr}
+    .col-grid > *{border-right:none!important}
+  }
+  /* Exhibitions grids — framed, shared black lines (top+left on wrap, right+bottom on cells) */
+  .exh-spaces,.exh-past{display:grid;gap:0;max-width:1140px;margin:0 auto;border-top:1px solid #000;border-left:1px solid #000}
+  .exh-spaces > *,.exh-past > *{border-right:1px solid #000;border-bottom:1px solid #000}
+  .exh-spaces{grid-template-columns:1fr 1fr}
+  .exh-past{grid-template-columns:repeat(3,1fr)}
+  @media(max-width:860px){ .exh-past{grid-template-columns:1fr 1fr} }
+  @media(max-width:560px){ .exh-spaces,.exh-past{grid-template-columns:1fr} }
+  /* Auction results table */
+  .auc-table{border-top:1px solid #000}
+  .auc-row{display:grid;grid-template-columns:2.4fr 2fr 1.2fr 1fr;gap:18px;align-items:center;
+    padding:15px 4px;border-bottom:1px solid #E2E2E2;font-size:13px}
+  /* Press — all press boxed accordions */
+  .press-box{border:1px solid #000!important;padding:2px 20px;margin-bottom:12px}
+  .press-box > summary{padding:18px 0}
+  .press-more{margin-top:6px}
+  .press-more > summary{list-style:none;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;
+    border:1px solid #000;padding:14px 30px;font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:#000;transition:background .15s,color .15s}
+  .press-more > summary::-webkit-details-marker{display:none}
+  .press-more > summary::after{content:'  +';margin-left:6px}
+  .press-more[open] > summary::after{content:'  –'}
+  .press-more > summary:hover{background:#000;color:#fff}
+  /* Press featured — expandable cards */
+  .press-card{display:flex;flex-direction:column}
+  .press-card > summary{list-style:none;cursor:pointer;display:flex;flex-direction:column}
+  .press-card > summary::-webkit-details-marker{display:none}
+  .press-card .ptog::after{content:'  +'}
+  .press-card[open] .ptog::after{content:'  –'}
+  .press-card[open] .ptog{color:#000000}
+  .press-card > summary:hover .ptog{color:#000000}
+  .press-table .auc-row{grid-template-columns:1fr auto}
+  @media(max-width:680px){ .press-table .auc-row{grid-template-columns:1fr auto;row-gap:0} .press-table .auc-head{display:grid} }
+  .auc-row.card{cursor:pointer;transition:background .15s}
+  .auc-row.card:hover{background:#F5F5F5}
+  .auc-head{border-bottom:1px solid #000;font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:#9A9A9A}
+  .auc-head > *{font-weight:400!important}
+  @media(max-width:680px){
+    .auc-row{grid-template-columns:1fr auto;gap:4px 14px;row-gap:2px;padding:16px 4px}
+    .auc-row > *:nth-child(1){grid-column:1;font-weight:700}
+    .auc-row > *:nth-child(4){grid-column:2;grid-row:1 / span 3;align-self:center}
+    .auc-row > *:nth-child(2){grid-column:1;color:#9A9A9A!important;font-size:11px}
+    .auc-row > *:nth-child(3){grid-column:1;color:#9A9A9A!important;font-size:11px}
+    .auc-head{display:none}
+  }
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div id="toast"></div>
+
+<script>
+/* ============================================================
+   DATA
+   ============================================================ */
+const PRODUCTS = [
+  {name:'M57 Lamp', cat:'LIGHTING', sub:'TABLE LAMPS', material:'Brushed brass · LED', finishes:['Brushed Brass','Polished Brass','Nickel-plated Brass'], ref:'M57', featured:true, signature:true, dims:'D1170 × L162 × H1770 mm · 36 kg · 50 W LED · 6 240 lm', href:'https://www.jules-wabbes.com/product/m57-lamp', shot:'LIGHTING — M57 LAMP', desc:'Exhibited at the XI Triennale in Milan in 1957 and long lost, the M57 — Wabbes’ “double-position lighting device” — is reissued by General Decoration. Its fins filter the light differently depending on the position of the foot, for direct or indirect lighting.'},
+  {name:'Large Hexagonal Table Lamp', cat:'LIGHTING', sub:'TABLE LAMPS', material:'Bronze', finishes:['Bronze','Patinated Bronze'], ref:'W1005', featured:true, signature:false, href:'https://www.jules-wabbes.com/product/large-hexagonal-table-lamp', shot:'LIGHTING — LARGE HEXAGONAL TABLE LAMP', desc:'Created in the late 60s, inspired by a stone model of the Dunbar collection designed by Edward J. Wormley in 1959. Jules Wabbes reinterpreted this classic; the first copies in travertine were produced by Mobilier Universel, later made in metal by General Decoration.'},
+  {name:'Small Hexagonal Table Lamp', cat:'LIGHTING', sub:'TABLE LAMPS', material:'Bronze', finishes:['Bronze','Patinated Bronze'], ref:'', featured:false, signature:false, href:'https://www.jules-wabbes.com/product/small-hexagonal-table-lamp', shot:'LIGHTING — SMALL HEXAGONAL TABLE LAMP', desc:'A smaller version of the iconic hexagonal lamp, in cast metal with the warm patina characteristic of the Wabbes archive.'},
+  {name:'50th Anniversary Hexagonal Table Lamp', cat:'LIGHTING', sub:'TABLE LAMPS', material:'Bronze', finishes:['Bronze','Patinated Bronze'], ref:'', featured:true, signature:false, href:'https://www.jules-wabbes.com/product/50th-anniversary-hexagonal-table-lamp', shot:'LIGHTING — 50TH ANNIVERSARY HEXAGONAL TABLE LAMP', desc:'A commemorative edition of the hexagonal table lamp marking fifty years of General Decoration as the exclusive editor of Jules Wabbes.'},
+  {name:'Tulip Table Lamp', cat:'LIGHTING', sub:'TABLE LAMPS', material:'Brass', finishes:['Brushed Brass','Polished Brass'], ref:'', featured:false, signature:false, href:'https://www.jules-wabbes.com/product/tulip-table-lamp', shot:'LIGHTING — TULIP TABLE LAMP', desc:'A sculptural brass table lamp from the Wabbes lighting collection, reissued under exclusive licence.'},
+  {name:'Extra Large Interior Bronze Wall Lamp', cat:'LIGHTING', sub:'WALL LIGHTS', material:'Bronze', finishes:['Bronze','Patinated Bronze'], ref:'', featured:false, signature:false, href:'https://www.jules-wabbes.com/product/extra-large-interior-bronze-wall-lamp', shot:'LIGHTING — EXTRA LARGE INTERIOR BRONZE WALL LAMP', desc:'Cast bronze interior wall lamp in its largest format, finished by hand and left to develop a natural patina over time.'},
+  {name:'Large Interior Bronze Wall Lamp', cat:'LIGHTING', sub:'WALL LIGHTS', material:'Bronze', finishes:['Bronze','Patinated Bronze'], ref:'', featured:false, signature:false, href:'https://www.jules-wabbes.com/product/large-interior-bronze-wall-lamp', shot:'LIGHTING — LARGE INTERIOR BRONZE WALL LAMP', desc:'Large interior wall lamp in raw bronze, part of Wabbes’ family of architectural lighting.'},
+  {name:'Small Interior Bronze Wall Lamp', cat:'LIGHTING', sub:'WALL LIGHTS', material:'Bronze', finishes:['Bronze','Patinated Bronze'], ref:'', featured:false, signature:false, href:'https://www.jules-wabbes.com/product/small-interior-bronze-wall-lamp', shot:'LIGHTING — SMALL INTERIOR BRONZE WALL LAMP', desc:'Compact interior bronze wall lamp, hand-cast and finished in Belgium.'},
+  {name:'Mini Wall Lamp', cat:'LIGHTING', sub:'WALL LIGHTS', material:'Brass', finishes:['Brushed Brass','Polished Brass'], ref:'', featured:false, signature:false, href:'https://www.jules-wabbes.com/product/mini-wall-lamp', shot:'LIGHTING — MINI WALL LAMP', desc:'A discreet brass wall light for refined interiors, reissued by General Decoration.'},
+  {name:'5-Band Wall Lamp', cat:'LIGHTING', sub:'WALL LIGHTS', material:'Brass', finishes:['Brushed Brass','Polished Brass'], ref:'', featured:false, signature:false, href:'https://www.jules-wabbes.com/product/5-band-wall-lamp', shot:'LIGHTING — 5-BAND WALL LAMP', desc:'Brass wall lamp composed of five bands, diffusing a soft, layered light.'},
+  {name:'11-Band Wall Lamp', cat:'LIGHTING', sub:'WALL LIGHTS', material:'Brass', finishes:['Brushed Brass','Polished Brass'], ref:'', featured:false, signature:false, href:'https://www.jules-wabbes.com/product/11-band-wall-lamp', shot:'LIGHTING — 11-BAND WALL LAMP', desc:'Brass wall lamp composed of eleven bands, a larger statement version of the banded family.'},
+  {name:'Honeycomb Wall Lamp', cat:'LIGHTING', sub:'WALL LIGHTS', material:'Brass', finishes:['Brushed Brass','Polished Brass'], ref:'', featured:false, signature:false, href:'https://www.jules-wabbes.com/product/honeycomb-wall-lamp', shot:'LIGHTING — HONEYCOMB WALL LAMP', desc:'Wall lamp with a honeycomb structure in brass, filtering light through its geometric pattern.'},
+  {name:'Extra Large Exterior Bronze Wall Lamp', cat:'LIGHTING', sub:'OUTDOOR', material:'Bronze', finishes:['Bronze','Patinated Bronze'], ref:'', featured:false, signature:false, href:'https://www.jules-wabbes.com/product/extra-large-exterior-bronze-wall-lamp', shot:'LIGHTING — EXTRA LARGE EXTERIOR BRONZE WALL LAMP', desc:'Exterior bronze wall lamp in its largest format, suited to all weather and developing a beautiful patina outdoors.'},
+  {name:'Large Exterior Bronze Wall Lamp', cat:'LIGHTING', sub:'OUTDOOR', material:'Bronze', finishes:['Bronze','Patinated Bronze'], ref:'', featured:false, signature:false, href:'https://www.jules-wabbes.com/product/large-exterior-bronze-wall-lamp', shot:'LIGHTING — LARGE EXTERIOR BRONZE WALL LAMP', desc:'Large exterior wall lamp in raw bronze, designed for outdoor architecture.'},
+  {name:'Small Exterior Bronze Wall Lamp', cat:'LIGHTING', sub:'OUTDOOR', material:'Bronze', finishes:['Bronze','Patinated Bronze'], ref:'', featured:false, signature:false, href:'https://www.jules-wabbes.com/product/small-exterior-bronze-wall-lamp', shot:'LIGHTING — SMALL EXTERIOR BRONZE WALL LAMP', desc:'Small exterior bronze wall lamp, weatherproof and patinating naturally with time.'},
+  {name:'Garden Lamp', cat:'LIGHTING', sub:'OUTDOOR', material:'Bronze', finishes:['Bronze','Patinated Bronze'], ref:'', featured:false, signature:false, href:'https://www.jules-wabbes.com/product/garden-lamp', shot:'LIGHTING — GARDEN LAMP', desc:'A bronze garden lamp for outdoor settings, robust and sculptural.'},
+  {name:'Small Round Brass Pendant', cat:'LIGHTING', sub:'CEILING LIGHTS', material:'Brass', finishes:['Brushed Brass','Polished Brass'], ref:'', featured:false, signature:false, href:'https://www.jules-wabbes.com/product/small-round-brass-pendant', shot:'LIGHTING — SMALL ROUND BRASS PENDANT', desc:'Small round pendant in brass, casting a warm and even glow.'},
+  {name:'Large Round Brass Pendant', cat:'LIGHTING', sub:'CEILING LIGHTS', material:'Brass', finishes:['Brushed Brass','Polished Brass'], ref:'', featured:false, signature:false, href:'https://www.jules-wabbes.com/product/large-round-brass-pendant', shot:'LIGHTING — LARGE ROUND BRASS PENDANT', desc:'Large round brass pendant, a generous ceiling fixture from the Wabbes collection.'},
+  {name:'Osaka Ceiling Lamp', cat:'LIGHTING', sub:'CEILING LIGHTS', material:'Brass', finishes:['Brushed Brass','Polished Brass'], ref:'', featured:false, signature:false, href:'https://www.jules-wabbes.com/product/osaka-ceiling-lamp', shot:'LIGHTING — OSAKA CEILING LAMP', desc:'The Osaka ceiling lamp in brass, with a refined modernist geometry.'},
+  {name:'Honeycomb Ceiling Lamp', cat:'LIGHTING', sub:'CEILING LIGHTS', material:'Brass', finishes:['Brushed Brass','Polished Brass'], ref:'', featured:false, signature:false, href:'https://www.jules-wabbes.com/product/honeycomb-ceiling-lamp', shot:'LIGHTING — HONEYCOMB CEILING LAMP', desc:'Ceiling lamp with a honeycomb structure in brass, diffusing patterned light from above.'},
+  {name:'Gérard Philipe Writing Table', cat:'FURNITURE', sub:'TABLES', material:'Wengé · Bronze', finishes:['Wengé'], ref:'', featured:false, signature:false, href:'https://www.jules-wabbes.com/product/gerard-philipe-writing-table', shot:'FURNITURE — GÉRARD PHILIPE WRITING TABLE', desc:'A writing table in solid wengé with bronze details, named after the actor Gérard Philipe — a refined desk from the Wabbes archive.'},
+  {name:'Round Dining Table', cat:'FURNITURE', sub:'TABLES', material:'Solid wengé', finishes:['Wengé'], ref:'', featured:false, signature:false, href:'https://www.jules-wabbes.com/product/round-dining-table', shot:'FURNITURE — ROUND DINING TABLE', desc:'One of Jules Wabbes’ favourite creations, designed in 1966 for a private client in Antwerp. The thick top is made of rectangular blocks of wengé glued into an end-grain board, in a deep palette of dark brown.'},
+  {name:'Round Pedestal Table', cat:'FURNITURE', sub:'TABLES', material:'Wengé · Bronze', finishes:['Wengé'], ref:'', featured:false, signature:false, href:'https://www.jules-wabbes.com/product/round-pedestal-table', shot:'FURNITURE — ROUND PEDESTAL TABLE', desc:'A round pedestal table combining a solid wengé top with a bronze base, balancing weight and elegance.'},
+  {name:'Round Coffee Table', cat:'FURNITURE', sub:'TABLES', material:'Solid wengé', finishes:['Wengé'], ref:'', featured:false, signature:false, href:'https://www.jules-wabbes.com/product/round-coffee-table', shot:'FURNITURE — ROUND COFFEE TABLE', desc:'A low round coffee table in solid wengé, with the dense end-grain surface typical of the workshop.'},
+  {name:'Trestles', cat:'FURNITURE', sub:'TABLES', material:'Bronze', finishes:['Bronze'], ref:'', featured:false, signature:false, href:'https://www.jules-wabbes.com/product/trestles', shot:'FURNITURE — TRESTLES', desc:'Bronze trestles designed to support a table top, a structural and sculptural base from the collection.'},
+  {name:'Série 800 Sofas', cat:'FURNITURE', sub:'SEATING', material:'Leather', finishes:['Leather'], ref:'', featured:false, signature:false, href:'https://www.jules-wabbes.com/product/serie-800-luxury-sofas', shot:'FURNITURE — SÉRIE 800 SOFAS', desc:'The Série 800 sofas, generous seating upholstered in leather, balancing comfort with modernist rigour.'},
+  {name:'Rectangular Door Handle', cat:'HANDLES', sub:'', material:'Bronze', finishes:['Bronze','Patinated Bronze'], ref:'', featured:false, signature:false, href:'https://www.jules-wabbes.com/product/rectangular-door-handle', shot:'HANDLES — RECTANGULAR DOOR HANDLE', desc:'This large door handle can be fixed vertically or horizontally and on both sides of the door. The raw bronze is soft and smooth, can be used outside in all weather, and gets a beautiful patina with time.'},
+  {name:'Hexagonal Door Handle', cat:'HANDLES', sub:'', material:'Bronze', finishes:['Bronze','Patinated Bronze'], ref:'', featured:false, signature:false, href:'https://www.jules-wabbes.com/product/hexagonal-door-handle', shot:'HANDLES — HEXAGONAL DOOR HANDLE', desc:'Hexagonal door handle in raw bronze, soft to the touch and patinating gracefully with use.'},
+  {name:'Peg Door Handle', cat:'HANDLES', sub:'', material:'Bronze', finishes:['Bronze','Patinated Bronze'], ref:'', featured:false, signature:false, href:'https://www.jules-wabbes.com/product/peg-door-handle', shot:'HANDLES — PEG DOOR HANDLE', desc:'A peg-shaped door handle in solid bronze, minimal and tactile.'},
+  {name:'Oval Pull Handle', cat:'HANDLES', sub:'', material:'Bronze', finishes:['Bronze','Patinated Bronze'], ref:'', featured:false, signature:false, href:'https://www.jules-wabbes.com/product/oval-pull-handle', shot:'HANDLES — OVAL PULL HANDLE', desc:'Oval pull handle in bronze, for doors and large openings.'},
+  {name:'Iron Door Handle & Door Pusher', cat:'HANDLES', sub:'', material:'Wrought iron', finishes:['Wrought Iron'], ref:'', featured:false, signature:false, href:'https://www.jules-wabbes.com/product/iron-door-handle-and-door-pusher', shot:'HANDLES — IRON DOOR HANDLE & DOOR PUSHER', desc:'A door handle and matching door pusher in wrought iron, robust and characterful.'},
+  {name:'Cabinet Handle', cat:'HANDLES', sub:'', material:'Bronze', finishes:['Bronze','Patinated Bronze'], ref:'', featured:false, signature:false, href:'https://www.jules-wabbes.com/product/cabinet-handle', shot:'HANDLES — CABINET HANDLE', desc:'Bronze cabinet handle, finished by hand for furniture and joinery.'},
+  {name:'Cupboard Handles', cat:'HANDLES', sub:'', material:'Bronze', finishes:['Bronze','Patinated Bronze'], ref:'', featured:false, signature:false, href:'https://www.jules-wabbes.com/product/cupboard-handles', shot:'HANDLES — CUPBOARD HANDLES', desc:'Bronze cupboard handles, a set of refined pulls for cabinetry.'},
+  {name:'Hexagonal Handle', cat:'HANDLES', sub:'', material:'Bronze', finishes:['Bronze','Patinated Bronze'], ref:'', featured:false, signature:false, href:'https://www.jules-wabbes.com/product/hexagonal-handle', shot:'HANDLES — HEXAGONAL HANDLE', desc:'Hexagonal furniture handle in solid bronze.'},
+  {name:'Square Handle', cat:'HANDLES', sub:'', material:'Bronze', finishes:['Bronze','Patinated Bronze'], ref:'', featured:false, signature:false, href:'https://www.jules-wabbes.com/product/square-handle', shot:'HANDLES — SQUARE HANDLE', desc:'Square furniture handle in solid bronze, simple and precise.'},
+  {name:'Oval Handle', cat:'HANDLES', sub:'', material:'Bronze', finishes:['Bronze','Patinated Bronze'], ref:'', featured:false, signature:false, href:'https://www.jules-wabbes.com/product/oval-handle', shot:'HANDLES — OVAL HANDLE', desc:'Oval furniture handle in solid bronze, soft to the touch.'},
+  {name:'Large Slatted Coat Rack', cat:'ACCESSORIES', sub:'COAT RACKS', material:'Brass', finishes:['Brushed Brass','Polished Brass'], ref:'', featured:false, signature:false, href:'https://www.jules-wabbes.com/product/large-slatted-coat-racks', shot:'ACCESSORIES — LARGE SLATTED COAT RACK', desc:'Large slatted coat rack in brass, a functional piece with the rigour of Wabbes’ design language.'},
+  {name:'Small Slatted Coat Rack', cat:'ACCESSORIES', sub:'COAT RACKS', material:'Brass', finishes:['Brushed Brass','Polished Brass'], ref:'', featured:false, signature:false, href:'https://www.jules-wabbes.com/product/small-slatted-coat-racks', shot:'ACCESSORIES — SMALL SLATTED COAT RACK', desc:'Small slatted coat rack in brass, faithfully reissued by General Decoration.'},
+  {name:'Butterfly Coat Rack', cat:'ACCESSORIES', sub:'COAT RACKS', material:'Brass', finishes:['Brushed Brass','Polished Brass'], ref:'', featured:false, signature:false, href:'https://www.jules-wabbes.com/product/butterfly-coat-racks', shot:'ACCESSORIES — BUTTERFLY COAT RACK', desc:'The butterfly coat rack, a sculptural wall-mounted piece in brass.'},
+  {name:'Coat Peg', cat:'ACCESSORIES', sub:'COAT RACKS', material:'Bronze', finishes:['Bronze','Patinated Bronze'], ref:'', featured:false, signature:false, href:'https://www.jules-wabbes.com/product/coat-peg', shot:'ACCESSORIES — COAT PEG', desc:'A single coat peg in bronze, minimal and durable.'},
+  {name:'Trinket Bowl', cat:'ACCESSORIES', sub:'DECORATIVE OBJECTS', material:'Brass', finishes:['Brushed Brass','Polished Brass'], ref:'', featured:false, signature:false, href:'https://www.jules-wabbes.com/product/trinket-bowl', shot:'ACCESSORIES — TRINKET BOWL', desc:'A small brass trinket bowl, a decorative object for everyday use.'},
+  {name:'Fire Belt', cat:'ACCESSORIES', sub:'DECORATIVE OBJECTS', material:'Bronze', finishes:['Bronze','Patinated Bronze'], ref:'', featured:false, signature:false, href:'https://www.jules-wabbes.com/product/fire-belt', shot:'ACCESSORIES — FIRE BELT', desc:'A fireplace fire belt in bronze, combining utility with sculptural presence.'},
+  {name:'Fire Dogs', cat:'ACCESSORIES', sub:'DECORATIVE OBJECTS', material:'Bronze', finishes:['Bronze','Patinated Bronze'], ref:'', featured:false, signature:false, href:'https://www.jules-wabbes.com/product/fire-dogs', shot:'ACCESSORIES — FIRE DOGS', desc:'A pair of bronze fire dogs for the hearth, from the Wabbes archive.'},
+  {name:'Fire Basket', cat:'ACCESSORIES', sub:'DECORATIVE OBJECTS', material:'Wrought iron', finishes:['Wrought Iron'], ref:'', featured:false, signature:false, href:'https://www.jules-wabbes.com/product/fire-basket', shot:'ACCESSORIES — FIRE BASKET', desc:'A wrought-iron fire basket, robust and elegantly proportioned.'}
+];
+// sub-filters shown under each top category (HANDLES has none)
+const SUBFILTERS = {
+  LIGHTING:['ALL LIGHTING','TABLE LAMPS','WALL LIGHTS','CEILING LIGHTS','OUTDOOR'],
+  FURNITURE:['ALL FURNITURE','TABLES','SEATING','STORAGE'],
+  ACCESSORIES:['ALL ACCESSORIES','DECORATIVE OBJECTS','COAT RACKS']
+};
+const firstSub = f => (SUBFILTERS[f] ? SUBFILTERS[f][0] : '');
+// finish swatch colours (used when a product offers more than one finish)
+const FINISH_COLORS = {
+  'Brushed Brass':'linear-gradient(135deg,#cdb478 0%,#a98f4f 55%,#8f7637 100%)',
+  'Polished Brass':'linear-gradient(135deg,#ecd58a 0%,#c2a23a 55%,#9c7d22 100%)',
+  'Nickel-plated Brass':'linear-gradient(135deg,#d6d9da 0%,#aeb2b4 55%,#8f9395 100%)',
+  'Patinated Brass':'linear-gradient(135deg,#a08a52 0%,#6f5c2e 60%,#4d3f1f 100%)',
+  'Raw Brass':'linear-gradient(135deg,#c4a86a 0%,#9a8042 60%,#766030 100%)',
+  'Bronze':'linear-gradient(135deg,#8c6c46 0%,#5e4327 60%,#3f2d1a 100%)',
+  'Raw Bronze':'linear-gradient(135deg,#9a7a52 0%,#6b4f30 60%,#48331f 100%)',
+  'Patinated Bronze':'linear-gradient(135deg,#7d6a45 0%,#4f3f26 60%,#33271a 100%)',
+  'Polished Bronze':'linear-gradient(135deg,#b89568 0%,#8a6a40 60%,#5e4427 100%)',
+  'Nickel-plated Bronze':'linear-gradient(135deg,#cdcfce 0%,#a4a6a4 55%,#82847f 100%)',
+  'Burgundy':'linear-gradient(135deg,#7a2230 0%,#5a141f 70%,#3e0d15 100%)',
+  'Marble':'linear-gradient(135deg,#f2efe9 0%,#dad5cb 55%,#bdb6a8 100%)',
+  'Ceramic':'linear-gradient(135deg,#efece6 0%,#d6cfc4 60%,#b8afa1 100%)',
+  'Oak':'linear-gradient(135deg,#cdb285 0%,#a8895a 60%,#806638 100%)',
+  'Walnut':'linear-gradient(135deg,#7a5634 0%,#553a20 60%,#3a2715 100%)',
+  'Wengé':'linear-gradient(135deg,#5a4632 0%,#3a2c1d 70%,#241a11 100%)',
+  'Leather':'linear-gradient(135deg,#8a6440 0%,#5e3f27 70%,#3f2a1a 100%)',
+  'Wrought Iron':'linear-gradient(135deg,#5c5c5c 0%,#3a3a3a 60%,#222 100%)'
+};
+const PROJECTS = [
+  {key:'pavilion', title:'Pavilion of Human Passions', meta:'Brussels · 1896', badge:'REFERENCE ICONIQUE', shot:'PROJECT — PAVILION', desc:'Victor Horta’s first public commission, home to a monumental Carrara marble relief by Jef Lambeaux.',
+   more:'Victor Horta’s first public commission, inaugurated in 1896 in the Parc du Cinquantenaire in Brussels — and famously closed to the public just three days after opening.',
+   body:[
+     'The “Pavilion of Human Passions” is Victor Horta’s first public commission. Originally designed with an open facade, Horta was forced to close it with a wooden barricade following public pressure and opposition from the sculptor Jef Lambeaux, who insisted on a gallery wall behind the columns.',
+     'Enclosed in the temple is a monumental relief by Jef Lambeaux — an impressive work measuring 11 metres long and 6 metres high, carved in smooth Carrara marble.',
+     'Within this neoclassical setting, Jules Wabbes placed his End Grain Dining Table: an almost “organic” interpretation of the classical dining table, echoing Horta’s architectural approach. The table features a wengé wood top and a raw bronze stand composed of five curved triangular elements on a pentagonal shaft.'
+   ]},
+  {key:'villa-arca', title:'Villa Arca', meta:'Sint-Martens-Latem · 1966', badge:'PROJECT', shot:'PROJECT — VILLA ARCA', desc:'A 1966 architect’s house near Ghent, now listed heritage, lit by original Wabbes pieces.',
+   more:'Designed and built by architect Jean van den Bogaerde in 1966 as his own residence, on a wedge-shaped site in Sint-Martens-Latem, Belgium.',
+   body:[
+     'Villa Arca was designed and built by architect Jean van den Bogaerde in 1966 as his personal residence, on a wedge-shaped site at a road junction in Sint-Martens-Latem, Belgium.',
+     'The house combines immovable and movable Japanese-style panels for flexible use of space, and a glass facade with the staircase at its centre. Its materials — plaster, wood, corrugated sheets and black PVC — give it a unique character; the villa is now listed and protected as immovable heritage.',
+     'It is lit by original Jules Wabbes pieces: a Bronze Wall Lamp (polished bronze), Mini Wall Lamps (nickel-plated and polished brass) and a Small Hexagonal Table Lamp (patinated bronze).',
+     'The villa is now inhabited by Belgian interior designer Frederic Hooft. It was photographed in January 2023 by Frederik Vercruysse.'
+   ]},
+  {key:'strongroom', title:'Strongroom', meta:'Brussels · 1971–1973', badge:'PROJECT', shot:'PROJECT — STRONGROOM', desc:'The strongroom of the former Générale de Banque, fully designed by Jules Wabbes.',
+   more:'Jules Wabbes fully designed the strongroom of the former Générale de Banque (now BNP Paribas Fortis) in Brussels, between 1971 and 1973.',
+   body:[
+     'Jules Wabbes fully designed the strongroom of the former Générale de Banque (now BNP Paribas Fortis) in Brussels, between 1971 and 1973.',
+     'Every element bears his hand — from the safe boxes and bronze handles to the signage and finishes — a complete interior conceived around dark, noble materials.',
+     'The strongroom was preserved from demolition and documented by General Decoration, keeping this rare, fully-realised Wabbes interior alive.'
+   ]},
+  {key:'50th', title:'50th Anniversary', meta:'2024 · Brussels', badge:'NEWS', shot:'JOURNAL — ANNIVERSARY', desc:'Fifty years of General Decoration as the exclusive editor of Jules Wabbes.',
+   more:'2024 marks fifty years of General Decoration as the exclusive editor of Jules Wabbes.',
+   body:[
+     '2024 marks fifty years of General Decoration as the exclusive editor of Jules Wabbes — celebrated with events, new releases and tributes.',
+     'Faithful to the ideas of Jules Wabbes, General Decoration continues to work with a handful of Belgian craftsmen and noble materials such as bronze and brass.'
+   ]}
+];
+const HOME_CATS = [
+  {label:'LIGHTING', shot:'CATEGORY — LIGHTING'},
+  {label:'FURNITURE', shot:'CATEGORY — FURNITURE'},
+  {label:'HANDLES', shot:'CATEGORY — HANDLES'},
+  {label:'ACCESSORIES', shot:'CATEGORY — ACCESSORIES'}
+];
+const CRAFT = [
+  {label:'BRASS', sub:'BRASS', text:'Hand-patinated finishes, varnished or left to age. Each piece is polished by our artisans in Belgium.'},
+  {label:'BRONZE', sub:'BRONZE', text:'Raw cast bronze, left to develop its natural patina slowly over the years.'},
+  {label:'WOOD', sub:'WOOD', text:'Dense-grained solid wengé, selected and worked for its depth and warmth.'}
+];
+const CATALOGUES = [
+  {name:'General Catalogue', size:'PDF'},
+  {name:'Round Tables Catalogue', size:'PDF'},
+  {name:'Trestles & Slatted Coat Rack Catalogue', size:'PDF'},
+  {name:'Door Pull Handles Catalogue', size:'PDF'},
+  {name:'Handles Catalogue', size:'PDF'},
+  {name:'Bronze Catalogue', size:'PDF'},
+  {name:'Brass Catalogue', size:'PDF'},
+  {name:'Exterior Lamps Catalogue', size:'PDF'},
+  {name:'Fire Accessories Catalogue', size:'PDF'},
+  {name:'Hexagonal Table Lamps Catalogue', size:'PDF'},
+  {name:'Honeycomb Lamps Catalogue', size:'PDF'},
+  {name:'Sofas Catalogue', size:'PDF'},
+  {name:'Gérard Philipe Writing Table Catalogue', size:'PDF'},
+  {name:'Ceiling Lamps Catalogue', size:'PDF'}
+];
+const FILES3D = [
+  {name:'Full collection', fmt:'DWG / OBJ'},
+  {name:'Lighting', fmt:'DWG / OBJ / IES'},
+  {name:'Furniture', fmt:'DWG / OBJ'},
+  {name:'Handles', fmt:'DWG / OBJ'}
+];
+const STORY_TABS = ['JULES WABBES','GENERAL DECORATION','CAROLINE & VINCENT COLET','CRAFTSMANSHIP','NEWS'];
+const NEWS = [
+  {key:'exhibitions', date:'EXHIBITIONS', shot:'NEWS — EXHIBITIONS', title:'Exhibitions',
+   text:'Discover where you can view the work of the Belgian designer.',
+   href:'https://www.jules-wabbes.com/exhibitions',
+   body:['Discover where you can view the work of the Belgian designer Jules Wabbes — current and upcoming exhibitions presenting his furniture, lighting and objects.',
+         'General Decoration regularly takes part in exhibitions and design fairs dedicated to post-war Belgian design, keeping the Wabbes archive in front of new audiences.']},
+  {key:'press', date:'PRESS', shot:'NEWS — PRESS', title:'In the press',
+   text:'Articles about Jules Wabbes’ universe in architecture and design magazines.',
+   href:'https://www.jules-wabbes.com/press',
+   body:['Discover articles about Jules Wabbes’ universe in architecture and design magazines.',
+         'From features on individual pieces to retrospectives on his interiors, the international press continues to document his lasting influence on Belgian design.']},
+  {key:'auction', date:'AUCTION RESULTS', shot:'NEWS — AUCTION RESULTS', title:'Auction results',
+   text:'The latest auction results for Jules Wabbes’ objects.',
+   href:'https://www.jules-wabbes.com/auction-results',
+   body:['Discover the latest auction results for Jules Wabbes’ objects.',
+         'His pieces — particularly in bronze, brass and solid wengé — are increasingly sought after by collectors worldwide, with strong results at international auction houses.']}
+];
+const CONTACT_TABS = ['PRIVATE ENQUIRY','TRADE ENQUIRY'];
+const NAV = [['COLLECTION','collection'],['OUR STORY','story'],['JOURNAL','journal'],['RESOURCES','resources'],['CONTACT','contact']];
+const M57_URL = 'https://www.jules-wabbes.com/m57';
+
+/* ============================================================
+   STATE + ROUTER
+   ============================================================ */
+const PIMG = {
+  'gerard-philipe-writing-table':'https://static.wixstatic.com/media/e614e0_27314f34ef2646c9ad80057aa5705bff~mv2.jpg/v1/fill/w_2480,h_2480,al_c,q_90/ProductWidget_GPWT.jpg',
+  'serie-800-luxury-sofas':'https://static.wixstatic.com/media/e614e0_d856a2f4a58e4f6faf77b80ce2f0a8c9~mv2.jpg/v1/fill/w_10335,h_10335,al_c,q_90/ProductWidget_S800.jpg',
+  'tulip-table-lamp':'https://static.wixstatic.com/media/e614e0_1b8609bd9f7946ad8145cc1c121ab7fc~mv2.jpg/v1/fill/w_1819,h_1819,al_c,q_90/ProductWidget_TTL.jpg',
+  'round-pedestal-table':'https://static.wixstatic.com/media/e614e0_126f78a14711491f8086142825a9d612~mv2.jpg/v1/fill/w_2480,h_2480,al_c,q_90/ProductWidget_RPT.jpg',
+  'round-coffee-table':'https://static.wixstatic.com/media/e614e0_64453363d4064c86b266d2f19eea2848~mv2.jpg/v1/fill/w_2480,h_2480,al_c,q_90/ProductWidget_RCT.jpg',
+  '50th-anniversary-hexagonal-table-lamp':'https://static.wixstatic.com/media/e614e0_ccb84872e5db42608dc11c8a1530a0ea~mv2.jpg/v1/fill/w_2480,h_2480,al_c,q_90/ProductWidget_50HTL.jpg',
+  'large-slatted-coat-racks':'https://static.wixstatic.com/media/e614e0_8fc8f67ce361410d98a2f4f97c7ea4fc~mv2.jpg/v1/fill/w_2480,h_2480,al_c,q_90/ProductWidget_SCR2000.jpg',
+  'extra-large-exterior-bronze-wall-lamp':'https://static.wixstatic.com/media/e614e0_1d3171048e5443eeb8fa46642e294040~mv2.jpg/v1/fill/w_2480,h_2480,al_c,q_90/ProductWidget_XLEBWL.jpg',
+  'extra-large-interior-bronze-wall-lamp':'https://static.wixstatic.com/media/e614e0_0dff1718490b4e8e9ffca2fae91df77c~mv2.jpg/v1/fill/w_2480,h_2480,al_c,q_90/ProductWidget_XLIBWL.jpg',
+  'cabinet-handle':'https://static.wixstatic.com/media/e614e0_461e7879762e4c189e41be8f4a0c2650~mv2.jpg/v1/fill/w_2480,h_2480,al_c,q_90/ProductWidget_CABHAN.jpg',
+  'cupboard-handles':'https://static.wixstatic.com/media/e614e0_2073166e548245b9b481630dc30de419~mv2.jpg/v1/fill/w_2480,h_2480,al_c,q_90/ProductWidget_CUPHAN.jpg',
+  'hexagonal-handle':'https://static.wixstatic.com/media/e614e0_3db5ceca934d4cd0a6862db1b563e657~mv2.jpg/v1/fill/w_2480,h_2480,al_c,q_90/ProductWidget_HH.jpg',
+  'square-handle':'https://static.wixstatic.com/media/e614e0_216558733efd40f1a8a34ef578217012~mv2.jpg/v1/fill/w_2480,h_2480,al_c,q_90/ProductWidget_SH.jpg',
+  'oval-handle':'https://static.wixstatic.com/media/e614e0_f042d3e2514e4b7c83dfa4388289b1a3~mv2.jpg/v1/fill/w_2480,h_2480,al_c,q_90/ProductWidget_OHAN.jpg',
+  'rectangular-door-handle':'https://static.wixstatic.com/media/e614e0_c531e747d95347f8b2eba8809150ee0c~mv2.jpg/v1/fill/w_2480,h_2480,al_c,q_90/ProductWidget_RDPH.jpg',
+  'hexagonal-door-handle':'https://static.wixstatic.com/media/e614e0_0d55e0745427444cab9bfa06c20811f5~mv2.jpg/v1/fill/w_2480,h_2480,al_c,q_90/ProductWidget_HDPH.jpg',
+  'oval-pull-handle':'https://static.wixstatic.com/media/e614e0_f49b9c612e904807b89c603fbf457bee~mv2.jpg/v1/fill/w_2480,h_2480,al_c,q_90/ProductWidget_ODPH.jpg',
+  'peg-door-handle':'https://static.wixstatic.com/media/e614e0_c7578e92c69048f9bdacf3680d7bc648~mv2.jpg/v1/fill/w_2480,h_2480,al_c,q_90/ProductWidget_PDPH.jpg',
+  'iron-door-handle-and-door-pusher':'https://static.wixstatic.com/media/e614e0_cd9621b4c68e452ea028bf654b418085~mv2.jpg/v1/fill/w_2480,h_2480,al_c,q_90/ProductWidget_IDPH%26DOORP.jpg',
+  'round-dining-table':'https://static.wixstatic.com/media/e614e0_1d15448bfc1e41fc9d4f682548c3fb44~mv2.jpg/v1/fill/w_2480,h_2480,al_c,q_90/ProductWidget_EGDT.jpg',
+  'small-exterior-bronze-wall-lamp':'https://static.wixstatic.com/media/e614e0_0681665c450a4c7bb304f243a8f52edd~mv2.jpg/v1/fill/w_2480,h_2480,al_c,q_90/ProductWidget_SEBWL.jpg',
+  'large-interior-bronze-wall-lamp':'https://static.wixstatic.com/media/e614e0_68771058e9824d51aeeccbf5746fdfd2~mv2.jpg/v1/fill/w_2480,h_2480,al_c,q_90/ProductWidget_LIBWL.jpg',
+  'large-exterior-bronze-wall-lamp':'https://static.wixstatic.com/media/e614e0_9b064a24dc7d47d1b312e21a77f79334~mv2.jpg/v1/fill/w_2480,h_2480,al_c,q_90/ProductWidget_LEBWL.jpg',
+  'trinket-bowl':'https://static.wixstatic.com/media/e614e0_88493832b7a148ed9a531a9f6d9a83c9~mv2.jpg/v1/fill/w_2480,h_2480,al_c,q_90/ProductWidget_TB.jpg',
+  'trestles':'https://static.wixstatic.com/media/e614e0_e0c9de7bbc76402ab1d996fe5c2e4d9c~mv2.jpg/v1/fill/w_2480,h_2480,al_c,q_90/ProductWidget_TRE.jpg',
+  'small-slatted-coat-racks':'https://static.wixstatic.com/media/e614e0_3f54b75d88944900bf0de1c38e06a9c5~mv2.jpg/v1/fill/w_2480,h_2480,al_c,q_90/ProductWidget_SCR15000.jpg',
+  'butterfly-coat-racks':'https://static.wixstatic.com/media/e614e0_74e5c63501b64c8895564fa882ad1e9d~mv2.jpg/v1/fill/w_2480,h_2480,al_c,q_90/ProductWidget_BCR.jpg',
+  'coat-peg':'https://static.wixstatic.com/media/e614e0_ffe63ddbd73c4b979c0299f5e696f44c~mv2.jpg/v1/fill/w_2480,h_2480,al_c,q_90/ProductWidget_CP.jpg',
+  'fire-belt':'https://static.wixstatic.com/media/e614e0_4193cb0137f64d8a95cffac26ac54f51~mv2.jpg/v1/fill/w_2480,h_2480,al_c,q_90/ProductWidget_FBEL.jpg',
+  'fire-basket':'https://static.wixstatic.com/media/e614e0_833a60c96fa3406bb11174f20d5f08d8~mv2.jpg/v1/fill/w_2480,h_2480,al_c,q_90/ProductWidget_FBAS.jpg',
+  'fire-dogs':'https://static.wixstatic.com/media/e614e0_11664511218443f79f409a1bd614bcee~mv2.jpg/v1/fill/w_2480,h_2480,al_c,q_90/ProductWidget_FD.jpg',
+  'garden-lamp':'https://static.wixstatic.com/media/e614e0_a401b0c204304d759f313b4969901d6c~mv2.jpg/v1/fill/w_2480,h_2480,al_c,q_90/ProductWidget_GL.jpg',
+  'small-hexagonal-table-lamp':'https://static.wixstatic.com/media/e614e0_b1029abbbc6c4488bd74ecb48858b23a~mv2.jpg/v1/fill/w_2480,h_2480,al_c,q_90/ProductWidget_SHTL.jpg',
+  'large-hexagonal-table-lamp':'https://static.wixstatic.com/media/e614e0_5a1c2f4b38d7448aa47cd39058ec15d2~mv2.jpg/v1/fill/w_2480,h_2480,al_c,q_90/ProductWidget_LHTL.jpg',
+  'mini-wall-lamp':'https://static.wixstatic.com/media/e614e0_10787eda2daf4c2aaa307e66d0cd4f1c~mv2.jpg/v1/fill/w_2480,h_2480,al_c,q_90/ProductWidget_MWL.jpg',
+  '5-band-wall-lamp':'https://static.wixstatic.com/media/e614e0_6493db130e3746d69f55e45c93a05239~mv2.jpg/v1/fill/w_2480,h_2480,al_c,q_90/ProductWidget_5B.jpg',
+  '11-band-wall-lamp':'https://static.wixstatic.com/media/e614e0_d85d3a8f9d554ebcb64b7c7168ea1d1d~mv2.jpg/v1/fill/w_2480,h_2480,al_c,q_90/ProductWidget_11B.jpg',
+  'honeycomb-wall-lamp':'https://static.wixstatic.com/media/e614e0_5259f442f2e746c6b00f15dc34cc8d81~mv2.jpg/v1/fill/w_2480,h_2480,al_c,q_90/ProductWidget_HWL.jpg',
+  'small-interior-bronze-wall-lamp':'https://static.wixstatic.com/media/e614e0_9168bbeab99f41bb9d90d357f6fabde8~mv2.jpg/v1/fill/w_2480,h_2480,al_c,q_90/ProductWidget_SIBWL.jpg',
+  'small-round-brass-pendant':'https://static.wixstatic.com/media/e614e0_5304c3647c1b4711a1e650cb9e6b20f7~mv2.jpg/v1/fill/w_2480,h_2480,al_c,q_90/ProductWidget_SRBP.jpg',
+  'osaka-ceiling-lamp':'https://static.wixstatic.com/media/e614e0_5cd68da619eb4d9aa5798718a9160143~mv2.jpg/v1/fill/w_2480,h_2480,al_c,q_90/ProductWidget_OCL.jpg',
+  'honeycomb-ceiling-lamp':'https://static.wixstatic.com/media/e614e0_60fa99e1e1df48dc8d58299e0a0cd716~mv2.jpg/v1/fill/w_2480,h_2480,al_c,q_90/ProductWidget_HCL.jpg',
+  'large-round-brass-pendant':'https://static.wixstatic.com/media/e614e0_2c440e2babf241489d47c84bb69a51a3~mv2.jpg/v1/fill/w_2480,h_2480,al_c,q_90/ProductWidget_LRBP.jpg'
+};
+PRODUCTS.forEach(p=>{const m=(p.href||'').match(/product\/([^?]+)/);if(m&&PIMG[m[1]])p.img=PIMG[m[1]];});
+
+const PDATA = {
+  'gerard-philipe-writing-table':{price:'On request',dims:'1580 × 740 × 770 mm',weight:'',finishes:['Bronze','Walnut']},
+  'serie-800-luxury-sofas':{price:'From 8.600,00 € excl. VAT',dims:'',weight:'',finishes:['Bronze','Oak','Leather']},
+  'm57-lamp':{price:'On request',dims:'1170 × 162 × 1770 mm',weight:'',finishes:['Bronze']},
+  'tulip-table-lamp':{price:'From 4.320,00 € excl. VAT',dims:'400 × 485 mm',weight:'5.00 kg',finishes:['Bronze']},
+  'round-pedestal-table':{price:'On request',dims:'1300 × 600 × 680 mm',weight:'50.00 kg',finishes:['Raw Bronze']},
+  'round-coffee-table':{price:'On request',dims:'1500 × 330 mm',weight:'38.00 kg',finishes:['Raw Bronze']},
+  '50th-anniversary-hexagonal-table-lamp':{price:'From 3.850,00 € excl. VAT',dims:'460 × 690 mm',weight:'8.60 kg',finishes:['Polished Bronze','Marble','Ceramic']},
+  'large-slatted-coat-racks':{price:'From 7.250,00 € excl. VAT',dims:'2000 × 90 × 1800 mm',weight:'28.00 kg',finishes:['Polished Brass','Nickel-plated Brass','Bronze','Oak']},
+  'extra-large-exterior-bronze-wall-lamp':{price:'From 6.280,00 € excl. VAT',dims:'320 × 250 × 270 mm',weight:'13.50 kg',finishes:['Raw Bronze','Nickel-plated Bronze']},
+  'extra-large-interior-bronze-wall-lamp':{price:'From 6.070,00 € excl. VAT',dims:'320 × 250 × 270 mm',weight:'13.50 kg',finishes:['Raw Bronze','Polished Bronze']},
+  'cabinet-handle':{price:'From 92,00 € excl. VAT',dims:'29 × 17 × 50 mm',weight:'',finishes:['Brushed Brass','Polished Brass','Nickel-plated Brass','Raw Bronze','Patinated Bronze']},
+  'cupboard-handles':{price:'From 115,00 € excl. VAT',dims:'40 × 20 × 65 mm',weight:'',finishes:['Raw Bronze','Polished Bronze','Nickel-plated Bronze']},
+  'hexagonal-handle':{price:'From 305,00 € excl. VAT',dims:'111 × 136 × 55 mm',weight:'',finishes:['Raw Bronze','Polished Bronze','Nickel-plated Bronze']},
+  'square-handle':{price:'On request',dims:'120 × 148 × 42 mm',weight:'',finishes:['Raw Bronze','Polished Bronze','Nickel-plated Bronze']},
+  'oval-handle':{price:'From 530,00 € excl. VAT',dims:'76 × 56 × 65 mm',weight:'1.20 kg',finishes:['Raw Bronze','Polished Bronze','Nickel-plated Bronze']},
+  'rectangular-door-handle':{price:'On request',dims:'178 × 50 × 118 mm',weight:'3.60 kg',finishes:['Raw Bronze','Polished Bronze','Nickel-plated Bronze']},
+  'hexagonal-door-handle':{price:'From 380,00 € excl. VAT',dims:'68 × 72 × 62 mm',weight:'1.20 kg',finishes:['Raw Bronze']},
+  'oval-pull-handle':{price:'From 230,00 € excl. VAT',dims:'53 × 41 × 36 mm',weight:'0.40 kg',finishes:['Raw Bronze','Polished Bronze','Nickel-plated Bronze']},
+  'peg-door-handle':{price:'From 1.580,00 € excl. VAT',dims:'152 × 82 × 170 mm',weight:'4.40 kg',finishes:['Raw Bronze','Polished Bronze','Nickel-plated Bronze']},
+  'iron-door-handle-and-door-pusher':{price:'From 790,00 € excl. VAT',dims:'117 × 57 × 209 mm',weight:'2.80 kg',finishes:['Raw Bronze']},
+  'round-dining-table':{price:'On request',dims:'2200 × 730 mm',weight:'100.00 kg',finishes:['Raw Bronze']},
+  'small-exterior-bronze-wall-lamp':{price:'From 4.650,00 € excl. VAT',dims:'240 × 148 × 163 mm',weight:'7.70 kg',finishes:['Raw Bronze','Nickel-plated Bronze']},
+  'large-interior-bronze-wall-lamp':{price:'From 4.840,00 € excl. VAT',dims:'260 × 230 × 205 mm',weight:'9.10 kg',finishes:['Raw Bronze','Polished Bronze','Nickel-plated Bronze']},
+  'large-exterior-bronze-wall-lamp':{price:'From 4.920,00 € excl. VAT',dims:'260 × 230 × 205 mm',weight:'9.60 kg',finishes:['Raw Bronze','Nickel-plated Bronze']},
+  'trinket-bowl':{price:'From 980,00 € excl. VAT',dims:'210 × 48 mm',weight:'4.00 kg',finishes:['Raw Bronze','Polished Bronze','Nickel-plated Bronze']},
+  'trestles':{price:'From 4.200,00 € excl. VAT',dims:'450 × 292 × 720 mm',weight:'3.10 kg',finishes:['Polished Brass','Nickel-plated Brass','Bronze','Marble','Oak']},
+  'small-slatted-coat-racks':{price:'From 6.150,00 € excl. VAT',dims:'1500 × 90 × 1800 mm',weight:'21.00 kg',finishes:['Polished Brass','Nickel-plated Brass','Bronze','Oak']},
+  'butterfly-coat-racks':{price:'From 1.400,00 € excl. VAT',dims:'405 × 250 × 400 mm',weight:'1.80 kg',finishes:['Polished Brass','Nickel-plated Brass','Bronze']},
+  'coat-peg':{price:'From 1.730,00 € excl. VAT',dims:'150 × 82 × 170 mm',weight:'4.80 kg',finishes:['Raw Bronze','Polished Bronze','Nickel-plated Bronze']},
+  'fire-belt':{price:'From 1.300,00 € excl. VAT',dims:'280 × 400 × 75 mm',weight:'5.40 kg',finishes:['Polished Bronze','Leather']},
+  'fire-basket':{price:'From 2.950,00 € excl. VAT',dims:'445 × 295 × 140 mm',weight:'30.00 kg',finishes:['Bronze']},
+  'fire-dogs':{price:'From 3.600,00 € excl. VAT',dims:'420 × 195 × 130 mm',weight:'21.00 kg',finishes:['Polished Bronze']},
+  'garden-lamp':{price:'From 1.690,00 € excl. VAT',dims:'125 × 256 mm',weight:'5.20 kg',finishes:['Raw Bronze']},
+  'small-hexagonal-table-lamp':{price:'From 3.180,00 € excl. VAT',dims:'333 × 508 mm',weight:'5.00 kg',finishes:['Raw Bronze','Patinated Bronze','Polished Bronze','Nickel-plated Bronze','Burgundy','Ceramic']},
+  'large-hexagonal-table-lamp':{price:'From 3.960,00 € excl. VAT',dims:'460 × 690 mm',weight:'8.60 kg',finishes:['Raw Bronze','Patinated Bronze','Polished Bronze','Nickel-plated Bronze','Burgundy','Marble','Ceramic']},
+  'mini-wall-lamp':{price:'From 2.390,00 € excl. VAT',dims:'200 × 110 × 106 mm',weight:'2.00 kg',finishes:['Brushed Brass','Polished Brass','Nickel-plated Brass','Bronze']},
+  '5-band-wall-lamp':{price:'From 2.180,00 € excl. VAT',dims:'173 × 189 × 150 mm',weight:'2.30 kg',finishes:['Polished Brass','Nickel-plated Brass','Bronze']},
+  '11-band-wall-lamp':{price:'From 4.250,00 € excl. VAT',dims:'350 × 181 × 300 mm',weight:'6.50 kg',finishes:['Polished Brass','Nickel-plated Brass','Bronze']},
+  'honeycomb-wall-lamp':{price:'From 6.090,00 € excl. VAT',dims:'270 × 254 × 250 mm',weight:'4.50 kg',finishes:['Polished Brass','Nickel-plated Brass','Bronze']},
+  'small-interior-bronze-wall-lamp':{price:'From 4.650,00 € excl. VAT',dims:'240 × 148 × 163 mm',weight:'',finishes:['Raw Bronze','Polished Bronze','Nickel-plated Bronze']},
+  'small-round-brass-pendant':{price:'From 11.170,00 € excl. VAT',dims:'330 × 254 mm',weight:'5.40 kg',finishes:['Brushed Brass','Polished Brass','Nickel-plated Brass','Bronze']},
+  'osaka-ceiling-lamp':{price:'On request',dims:'595 × 525 × 280 mm',weight:'24.00 kg',finishes:['Brushed Brass','Polished Brass','Nickel-plated Brass','Bronze']},
+  'honeycomb-ceiling-lamp':{price:'From 23.150,00 € excl. VAT',dims:'900 × 1500 × 240 mm',weight:'17.00 kg',finishes:['Polished Brass','Nickel-plated Brass','Bronze']},
+  'large-round-brass-pendant':{price:'From 14.260,00 € excl. VAT',dims:'440 × 375 mm',weight:'12.00 kg',finishes:['Brushed Brass','Polished Brass','Nickel-plated Brass','Bronze']}
+};
+PRODUCTS.forEach(p=>{const m=(p.href||'').match(/product\/([^?]+)/);const d=m&&PDATA[m[1]];if(d){p.price=d.price;p.dims=d.dims;p.weight=d.weight;if(d.finishes&&d.finishes.length)p.finishes=d.finishes;}});
+
+const state = { page:'home', ap:0, finish:0, details:false, news:'exhibitions', project:'pavilion', filter:'ALL', sub:'ALL FURNITURE', storyTab:0, contactTab:0 };
+function setState(patch, keepScroll){ Object.assign(state, patch); render(); if(!keepScroll) window.scrollTo(0,0); }
+function go(p){ setState({page:p}); }
+function goCat(f){ setState({page:'collection', filter:f, sub:firstSub(f)}); }
+function open(i){ setState({page:'product', ap:i, finish:0, details:false}); }
+function toast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(t._h); t._h=setTimeout(()=>t.classList.remove('show'),2600); }
+
+/* accordion helper (native <details>, survives without re-render) */
+function acc(label, bodyHTML){
+  return `<details class="acc"><summary>${label}</summary><div class="acc-body">${bodyHTML}</div></details>`;
+}
+
+/* ============================================================
+   SHARED CHROME
+   ============================================================ */
+function header(){
+  const active = pg => (state.page===pg) || (pg==='story' && state.page==='storyFull') || (pg==='collection' && state.page==='product');
+  const label = (text,pg)=>`<div class="navlabel" data-go="${pg}" style="border-bottom:1px solid ${active(pg)?'#000000':'transparent'}">${text}</div>`;
+  const di = (text,attr)=>`<div class="ditem" ${attr}>${text}</div>`;
+
+  // COLLECTION mega menu (categories + their sub-categories)
+  const MEGA = [
+    ['LIGHTING','lighting',['TABLE LAMPS','WALL LIGHTS','CEILING LIGHTS','OUTDOOR']],
+    ['FURNITURE','furniture',['TABLES','SEATING','STORAGE']],
+    ['HANDLES','handles',[]],
+    ['ACCESSORIES','accessories',['DECORATIVE OBJECTS','COAT RACKS']]
+  ];
+  const megaLeft = MEGA.map(([C,slug])=>`<div class="megacat c-${slug}" data-cat="${C}">${C}</div>`).join('');
+  const megaPanels = MEGA.filter(m=>m[2].length).map(([C,slug,subs])=>
+    `<div class="subpanel s-${slug}">${subs.map(s=>di(s,`data-catsub="${C}|${s}"`)).join('')}</div>`).join('');
+  const megaDD = `<div class="dd mega"><div class="mega-wrap"><div class="mega-left">${megaLeft}</div>${megaPanels}</div></div>`;
+
+  const storyDD = `<div class="dd">${
+    ['JULES WABBES','GENERAL DECORATION','CAROLINE & VINCENT COLET','CRAFTMANSHIP','NEWS']
+      .map((t,i)=>di(t,`data-storynav="${i}"`)).join('')}</div>`;
+  const journalDD = `<div class="dd">${
+    ['PAVILION OF HUMAN PASSIONS','VILLA ARCA','STRONGROOM','50TH ANNIVERSARY']
+      .map(t=>di(t,`data-go="journal"`)).join('')}</div>`;
+  const resourcesDD = `<div class="dd">${['CATALOGUES','3D FILES'].map(t=>di(t,`data-go="resources"`)).join('')}</div>`;
+  const contactDD = `<div class="dd">${['WRITE TO US','SHOWROOM','EXPERT ASSESSMENT','RESTORATION','NEWSLETTER'].map(t=>di(t,`data-go="contact"`)).join('')}</div>`;
+
+  const nav = `
+    <div class="navitem">${label('COLLECTION','collection')}${megaDD}</div>
+    <div class="navitem">${label('OUR STORY','story')}${storyDD}</div>
+    <div class="navitem">${label('JOURNAL','journal')}${journalDD}</div>
+    <div class="navitem">${label('RESOURCES','resources')}${resourcesDD}</div>
+    <div class="navitem">${label('CONTACT','contact')}${contactDD}</div>`;
+  return `
+  <header style="position:sticky;top:0;z-index:30;background:#FFFFFF;border-bottom:1px solid #000000">
+    <div style="max-width:1140px;margin:0 auto;padding:0 40px" class="pad-x">
+      <div style="display:flex;justify-content:center;align-items:center;padding:26px 0 8px">
+        <div data-go="home" style="font-family:'CompactaLetPlain','Compacta',sans-serif;font-size:48px;line-height:1;letter-spacing:0.01em;color:#000000;cursor:pointer;text-align:center">Jules Wabbes</div>
+      </div>
+      <nav class="nav" style="display:flex;justify-content:center;gap:44px">${nav}</nav>
+    </div>
+  </header>`;
+}
+
+function footer(){
+  const col = (title, items) => `
+    <div>
+      <div style="font-size:11px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:#000000;margin-bottom:18px">${title}</div>
+      <div style="display:flex;flex-direction:column;gap:14px;font-size:13px;color:#111111">${items.map(([t,attr])=>`<span class="lnk" ${attr||''}>${t}</span>`).join('')}</div>
+    </div>`;
+  return `
+  <footer style="background:#FFFFFF;color:#000000;border-top:1px solid #000000">
+    <div style="padding:72px 48px 30px" class="pad-block">
+      <div class="footer-cols" style="display:flex;justify-content:space-between;gap:60px;flex-wrap:wrap">
+        <div style="flex:0 0 32%;min-width:260px">
+          <div style="font-family:'CompactaLetPlain','Compacta',sans-serif;font-size:32px;line-height:1;margin-bottom:18px">Jules Wabbes</div>
+          <p style="font-size:12px;line-height:1.9;color:#111111;margin:0">Place Georges Brugmann<br/>1050 Bruxelles — Sur rendez-vous<br/>info@juleswabbes.com</p>
+        </div>
+        <div style="flex:1;display:grid;grid-template-columns:repeat(3,1fr);gap:56px">
+          ${col('Collection',[['Furniture','data-cat="FURNITURE"'],['Lighting','data-cat="LIGHTING"'],['Handles','data-cat="HANDLES"'],['Accessories','data-cat="ACCESSORIES"']])}
+          ${col('Our Story',[['Jules Wabbes','data-storynav="0"'],['General Decoration','data-storynav="1"'],['Caroline &amp; Vincent Colet','data-storynav="2"'],['Craftmanship','data-storynav="3"'],['News','data-storynav="4"']])}
+          ${col('More',[['Journal','data-go="journal"'],['Resources','data-go="resources"'],['Contact','data-go="contact"'],['Newsletter','data-go="contact"']])}
+        </div>
+      </div>
+      <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px;border-top:1px solid #000000;margin-top:60px;padding-top:24px">
+        <span style="font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:#111111">© General Decoration SPRL — Jules Wabbes</span>
+        <span style="font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:#111111">Terms &amp; Conditions</span>
+      </div>
+    </div>
+  </footer>`;
+}
+
+/* reusable full-bleed section header bar (home style) */
+function sectionBar(title, linkLabel, linkAttr){
+  return `
+  <div class="pad-x" style="display:flex;justify-content:space-between;align-items:center;padding:26px 48px;border-bottom:1px solid #000000">
+    <h2 style="font-size:38px;line-height:1;margin:0;text-transform:uppercase;letter-spacing:0.01em">${title}</h2>
+    ${linkLabel?`<div class="lnk" ${linkAttr} style="font-family:'Courier Prime',monospace;font-size:12px;letter-spacing:0.18em;text-transform:uppercase;color:#000000;border-bottom:1px solid #000000;padding-bottom:4px">${linkLabel}</div>`:''}
+  </div>`;
+}
+
+/* ============================================================
+   HOME
+   ============================================================ */
+function pageHome(){
+  const ARROW = `<svg width="22" height="12" viewBox="0 0 24 12" fill="none" stroke="#000" stroke-width="1" stroke-linecap="square" stroke-linejoin="miter" xmlns="http://www.w3.org/2000/svg"><path d="M1 6 H22 M16.5 1 L22 6 L16.5 11"/></svg>`;
+  const cats = HOME_CATS.map(c=>`
+    <div class="card" data-cat="${c.label}" style="flex:1;border-right:1px solid #000000">
+      <div class="ph" style="height:600px;background-color:#E8E8E8;padding:16px"><span style="font-size:9px">${c.shot}</span></div>
+      <div class="name" style="font-family:'CompactaLetPlain','Compacta',sans-serif;font-size:22px;letter-spacing:0.02em;text-transform:uppercase;color:#000000;padding:22px 20px;border-top:1px solid #000000">${c.label}</div>
+    </div>`).join('');
+  const projs = PROJECTS.slice(0,3).map(p=>`
+    <div class="card" data-project="${p.key}" style="flex:1;border-right:1px solid #000000">
+      <div class="ph" style="height:520px;background-color:#E8E8E8;padding:18px"><span style="font-size:9px">${p.shot}</span></div>
+      <div style="padding:24px 22px 30px;border-top:1px solid #000000">
+        <span style="display:inline-block;font-size:10px;font-weight:400;letter-spacing:0.16em;text-transform:uppercase;color:#000000;border:1px solid #000000;padding:6px 12px">${p.badge}</span>
+        <div class="name" style="font-family:'CompactaLetPlain','Compacta',sans-serif;font-size:24px;line-height:1.1;margin-top:18px;text-transform:uppercase;letter-spacing:0.01em">${p.title}</div>
+      </div>
+    </div>`).join('');
+  return `
+  <div>
+    <div style="height:86vh;min-height:460px;background-color:#000000;overflow:hidden">
+      <video src="videos/jules-wabbes.mov" autoplay muted loop playsinline style="width:100%;height:100%;object-fit:cover;display:block"></video>
+    </div>
+    <div class="pad-x" style="padding:92px 48px;text-align:center;border-bottom:1px solid #000000">
+      <h1 style="font-size:38px;line-height:1.14;letter-spacing:0.01em;text-transform:uppercase;margin:0 auto;max-width:1500px">Discover all the creations of the famous Belgian furniture designer and interior architect Jules Wabbes</h1>
+      <div style="font-size:12px;letter-spacing:0.26em;text-transform:uppercase;color:#111111;margin-top:30px">BRUSSELS · LICENCE EXCLUSIVE · GENERAL DECORATION SINCE 1969</div>
+    </div>
+    ${sectionBar('Collection','See all','data-go="collection"')}
+    <div class="cats" style="display:flex;border-bottom:1px solid #000000">${cats}</div>
+    <div class="row-split" style="display:flex;align-items:stretch;border-bottom:1px solid #000000">
+      <div class="ph" style="flex:0 0 50%;min-height:640px;background-color:#111111;background-image:var(--hatch-dark);padding:20px"><span style="font-size:10px;color:#111111">PORTRAIT — JULES WABBES (B&amp;W)</span></div>
+      <div class="pad-x" style="flex:1;padding:88px 64px;display:flex;flex-direction:column;justify-content:center">
+        <div style="font-size:13px;letter-spacing:0.22em;text-transform:uppercase;color:#111111;margin-bottom:26px">Our story</div>
+        <h2 style="font-size:36px;line-height:1.12;margin:0 0 30px;text-transform:uppercase;letter-spacing:0.01em">Jules Wabbes, Belgian designer (1919 – 1974)</h2>
+        <p class="prose" style="margin:0 0 36px;max-width:560px">Interior architect and designer, Jules Wabbes redefined Belgian interior design in the post-war era. His work continues to be produced under exclusive license by General Decoration.</p>
+        <div class="lnk" data-go="story" style="font-size:13px;letter-spacing:0.18em;text-transform:uppercase;color:#000000;border-bottom:1px solid #000000;align-self:flex-start;padding-bottom:4px">Read more</div>
+      </div>
+    </div>
+    ${sectionBar('Journal','See all','data-go="journal"')}
+    <div class="projects" style="display:flex;border-bottom:1px solid #000000">${projs}</div>
+  </div>`;
+}
+
+/* ============================================================
+   COLLECTION
+   ============================================================ */
+function fStyle(a){return `font-size:11px;letter-spacing:0.18em;text-transform:uppercase;padding:9px 16px;border:1px solid #000000;background:${a?'#000000':'transparent'};color:${a?'#FFFFFF':'#000000'};cursor:pointer`;}
+function subStyle(a){return `font-size:10px;letter-spacing:0.16em;text-transform:uppercase;padding:4px 0;background:transparent;border:none;cursor:pointer;color:${a?'#000000':'#111111'};border-bottom:1px solid ${a?'#000000':'transparent'}`;}
+function tabStyle(a){return `font-size:11px;letter-spacing:0.16em;text-transform:uppercase;padding:14px 0;background:transparent;border:none;cursor:pointer;white-space:nowrap;color:${a?'#000000':'#111111'};border-bottom:1px solid ${a?'#000000':'transparent'}`;}
+
+function m57Card(){
+  return `
+  <div class="card cell" data-href="${M57_URL}">
+    <div class="ph" style="position:relative;aspect-ratio:4/5;background-color:#111111;background-image:var(--hatch-dark);padding:18px">
+      <span style="font-size:9px;color:#7A756A">M57 — MILAN 1957</span>
+      <span class="corner-tab" style="color:#FFFFFF;background:#000000">SIGNATURE</span>
+      <span class="cat-tab" style="color:#000000">M57</span>
+    </div>
+    <div class="cell-foot">
+      <div>
+        <div class="name" style="font-family:'CompactaLetPlain','Compacta',sans-serif;font-size:18px;line-height:1.1;text-transform:uppercase">M57 Floor Lamp</div>
+        <div style="font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:#111111;margin-top:8px">Brushed brass · LED · Milan 1957</div>
+      </div>
+      <div class="arrow">↗</div>
+    </div>
+  </div>`;
+}
+
+function pageCollection(){
+  const filters = ['ALL','LIGHTING','FURNITURE','HANDLES','ACCESSORIES'].map(f=>`<button data-filter="${f}" style="${fStyle(state.filter===f)}">${f}</button>`).join('');
+  const subList = SUBFILTERS[state.filter] || null;
+  const subs = subList ? subList.map(f=>`<button data-sub="${f}" style="${subStyle(state.sub===f)}">${f}</button>`).join('') : '';
+  const subActive = state.sub && !state.sub.startsWith('ALL') ? state.sub : null;
+  const visible = PRODUCTS.map((p,i)=>({...p,idx:i}))
+    .filter(p=>state.filter==='ALL'||p.cat===state.filter)
+    .filter(p=>!subActive || p.sub===subActive);
+  const cards = visible.map(p=>{
+    const dark = p.signature;
+    const imgStyle = (dark
+      ? "background-color:#111111;background-image:var(--hatch-dark);"
+      : "background-color:#FFFFFF;background-image:none;") + "position:relative;aspect-ratio:3/4;padding:18px";
+    const photo = (!dark && p.img) ? `<img src="${p.img}" alt="${p.name}" loading="lazy" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:62%;height:62%;object-fit:contain;object-position:center">` : '';
+    const darkTab = dark ? ' style="background:#000;color:#fff;border-color:#fff"' : '';
+    const corner = dark
+      ? `<span class="corner-tab"${darkTab}>SIGNATURE</span>`
+      : (p.featured?`<span class="corner-tab">FEATURED</span>`:'');
+    const footStyle = dark ? ' style="background:#000;border-top:1px solid #fff"' : '';
+    const cellStyle = dark ? ' style="background:#000"' : '';
+    const nameColor = dark ? 'color:#fff;' : '';
+    const arrowStroke = dark ? '#fff' : '#000';
+    return `
+    <div class="card cell" data-open="${p.idx}"${cellStyle}>
+      <div class="ph" style="${imgStyle}">
+        ${photo}<span class="cat-tab"${darkTab}>${p.sub||p.cat}</span>${corner}
+      </div>
+      <div class="cell-foot"${footStyle}>
+        <div>
+          <div class="name" style="font-family:'CompactaLetPlain','Compacta',sans-serif;font-size:clamp(14px,1.3vw,24px);line-height:1.1;text-transform:uppercase;white-space:nowrap;${nameColor}">${p.name}</div>
+        </div>
+        <div class="arrow"><svg width="22" height="12" viewBox="0 0 24 12" fill="none" stroke="${arrowStroke}" stroke-width="1" stroke-linecap="square" stroke-linejoin="miter" xmlns="http://www.w3.org/2000/svg"><path d="M1 6 H22 M16.5 1 L22 6 L16.5 11"/></svg></div>
+      </div>
+    </div>`;
+  }).join('');
+  return `
+  <div>
+    <div class="pad-x" style="display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:64px 48px;border-bottom:1px solid #000000">
+      <div style="font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:#111111;margin-bottom:24px">COLLECTION</div>
+      <h1 style="font-size:42px;line-height:1.15;margin:0;white-space:nowrap;letter-spacing:-0.01em">Browse all original Jules Wabbes designs, produced under exclusive licence</h1>
+    </div>
+    <div class="pad-x" style="display:flex;flex-direction:column;align-items:center;gap:18px;padding:24px 48px;border-bottom:1px solid #000000">
+      <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center">${filters}</div>
+      ${subList ? `<div style="display:flex;gap:26px;flex-wrap:wrap;justify-content:center">${subs}</div>` : ''}
+    </div>
+    <div class="col-grid">${cards}</div>
+  </div>`;
+}
+
+/* ============================================================
+   PRODUCT
+   ============================================================ */
+function pageProduct(){
+  const ap = PRODUCTS[state.ap]||PRODUCTS[0];
+  const fin = ap.finishes||[];
+  const curFin = fin[state.finish] || fin[0] || '';
+  const multiFin = fin.length>1;
+  const imgBg = multiFin ? (FINISH_COLORS[curFin]||'#ECECEC') : '#ECECEC';
+  const finSel = multiFin ? `
+    <div style="margin-bottom:30px">
+      <div style="font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:#111111;margin-bottom:14px">FINISH — ${curFin}</div>
+      <div style="display:flex;gap:16px;flex-wrap:wrap">
+        ${fin.map((f,i)=>`<button data-finish="${i}" title="${f}" aria-label="${f}" style="width:40px;height:40px;border:1px solid #000;padding:0;cursor:pointer;background:${FINISH_COLORS[f]||'#ccc'};outline:${i===state.finish?'1px solid #000':'1px solid transparent'};outline-offset:3px"></button>`).join('')}
+      </div>
+    </div>` : '';
+  // specs from real fields only (no empty values, no duplicated FINISH — it is selectable above)
+  const specs = [];
+  if(ap.dims) specs.push(['DIMENSIONS', ap.dims]);
+  if(ap.weight) specs.push(['WEIGHT', ap.weight]);
+  specs.push(['LEAD TIME', 'Approx. 6 weeks']);
+  specs.push(['PAYMENT', '50% deposit · 50% before delivery']);
+  const specRows = specs.map(([k,v])=>`
+    <div style="display:flex;justify-content:space-between;gap:24px;padding:14px 0;border-bottom:1px solid #111111">
+      <span style="font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:#111111">${k}</span>
+      <span style="font-size:11px;letter-spacing:0.06em;color:#000000;text-align:right">${v}</span>
+    </div>`).join('');
+  const downloadRows = [['Technical Sheet (PDF)','download'],['Pro 3D Documents','download'],['Assembly Instructions','download']].map(([t,act])=>`
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:24px;padding:14px 0;border-bottom:1px solid #111111">
+      <span style="font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:#111111">${t}</span>
+      <button class="btn-out" data-action="${act}" style="flex:none;font-size:10px;letter-spacing:0.16em;text-transform:uppercase;padding:9px 18px">DOWNLOAD</button>
+    </div>`).join('');
+  // gallery thumbnails — one per finish (clickable, swaps the main render); falls back to views
+  const thumbs = multiFin
+    ? fin.map((f,i)=>`<div class="ph" data-finish="${i}" title="${f}" style="flex:1;aspect-ratio:1/1;cursor:pointer;background:${FINISH_COLORS[f]||'#ECECEC'};outline:${i===state.finish?'1px solid #000':'1px solid #000'};outline-offset:-1px"></div>`).join('')
+    : ['VIEW 01','VIEW 02','VIEW 03','DETAIL'].map(t=>`
+    <div class="ph" style="flex:1;aspect-ratio:1/1;background-color:#ECECEC;background-image:repeating-linear-gradient(135deg,transparent,transparent 8px,rgba(0,0,0,0.045) 8px,rgba(0,0,0,0.045) 9px);padding:8px"><span style="font-size:7px;letter-spacing:0.1em;color:#111111">${t}</span></div>`).join('');
+  // main image = browsable variant gallery: arrows cycle finishes; the drawing tints to each finish
+  const tint = multiFin ? `<div style="position:absolute;inset:0;background:${FINISH_COLORS[curFin]||'transparent'};mix-blend-mode:multiply;opacity:0.6;pointer-events:none;transition:background .35s"></div>` : '';
+  const arrowBtn = (step,sym)=>`<button data-finishstep="${step}" aria-label="${step<0?'Previous':'Next'}" style="width:40px;height:40px;border:1px solid #000;background:#fff;color:#000;cursor:pointer;font-size:18px;line-height:1;display:flex;align-items:center;justify-content:center">${sym}</button>`;
+  const gallery = multiFin ? `<div style="position:absolute;bottom:16px;left:16px;right:16px;display:flex;justify-content:space-between;align-items:center;z-index:3">${arrowBtn(-1,'‹')}<span style="font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:#111;text-align:center">${curFin} · ${state.finish+1}/${fin.length}</span>${arrowBtn(1,'›')}</div>` : '';
+  const mainImg = ap.img
+    ? `<div style="position:relative;height:100%;min-height:560px;background:#FFFFFF;border:1px solid #000;overflow:hidden"><img src="${ap.img}" alt="${ap.name}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;padding:40px">${tint}${gallery}</div>`
+    : `<div class="ph" style="height:100%;min-height:560px;background:${imgBg};padding:18px;transition:background .35s"><span style="font-size:10px;color:#3a352c">${ap.shot}${multiFin?' · '+curFin.toUpperCase():''}</span></div>`;
+  const related = PRODUCTS.map((p,i)=>({...p,idx:i})).filter(p=>p.idx!==state.ap).slice(0,4).map(p=>{
+    const rdark = p.signature;
+    return `
+    <div class="card cell" data-open="${p.idx}"${rdark?' style="border-color:#fff"':''}>
+      <div class="ph" style="position:relative;aspect-ratio:4/5;${rdark?'background-color:#111111;background-image:var(--hatch-dark);':'background-color:#FFFFFF;background-image:none;'}padding:16px">
+        ${(!rdark&&p.img)?`<img src="${p.img}" alt="${p.name}" loading="lazy" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:60%;height:60%;object-fit:contain">`:''}
+        <span class="cat-tab"${rdark?' style="background:#000;color:#fff;border-color:#fff"':''}>${p.sub||p.cat}</span>
+      </div>
+      <div class="cell-foot"${rdark?' style="background:#000;border-top-color:#fff"':''}>
+        <div class="name" style="font-family:'CompactaLetPlain','Compacta',sans-serif;font-size:14px;line-height:1.1;text-transform:uppercase;white-space:nowrap;${rdark?'color:#fff;':''}">${p.name}</div>
+      </div>
+    </div>`;
+  }).join('');
+  return `
+  <div class="pad-x" style="max-width:1140px;margin:0 auto;padding:40px 40px 110px">
+    <div style="padding:0 0 40px">
+      <span class="lnk" data-go="collection" style="font-size:11px;letter-spacing:0.18em;font-weight:700;text-transform:uppercase;color:#111111;border-bottom:1px solid #111111;padding-bottom:3px">← Back to the collection</span>
+    </div>
+    <div class="row-split" style="display:flex;gap:64px;align-items:stretch">
+      <div style="flex:0 0 52%;display:flex;flex-direction:column">
+        ${mainImg}
+      </div>
+      <div style="flex:1">
+        <div style="font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:#111111;margin-bottom:18px">
+          <span class="lnk" ${ap.sub?`data-catsub="${ap.cat}|${ap.sub}"`:`data-cat="${ap.cat}"`} style="display:inline-block">${ap.cat}${ap.sub?' · '+ap.sub:''}</span>${ap.featured?' · Featured':''}
+        </div>
+        <h1 style="font-size:42px;line-height:1.08;margin:0 0 4px;letter-spacing:-0.01em">${ap.name}</h1>
+        <div style="font-family:'CompactaLetPlain','Compacta',sans-serif;font-size:22px;margin-bottom:28px">${ap.price||'On request'}</div>
+        ${state.details?'':`<p class="prose" style="font-size:13px;line-height:1.7;margin:0 0 32px;max-width:440px">${ap.desc}</p>${finSel}`}
+        <div style="display:flex;gap:14px;margin-top:${state.details?'0':'36px'};margin-bottom:8px">
+          <button class="btn-out" data-action="enquire" style="flex:1;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;padding:16px">ENQUIRE</button>
+        </div>
+        <div data-detailstoggle class="lnk" style="display:flex;justify-content:space-between;align-items:center;padding:18px 0;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:#111111;cursor:pointer">
+          <span>Details &amp; downloads</span><span style="font-size:18px">${state.details?'–':'+'}</span>
+        </div>
+        ${state.details?`<div class="spec-table">${specRows}${downloadRows}</div>`:''}
+        ${ap.cat==='LIGHTING'?acc('Light source &amp; installation', `<p class="prose" style="font-size:14px;margin:0">Light source — E27 max 60W / E26 max 40W · AC 240V / 120V · LED filament bulb 6W included.<br/>To be installed by a licensed electrician.</p>`):''}
+        ${acc('Origin &amp; manufacturing', `<p class="prose" style="font-size:14px;margin:0">Manufactured and assembled by hand in Belgium. General Decoration is the sole holder of the licenses and designs for the original objects created by Jules Wabbes — the only original since 1969.</p>`)}
+      </div>
+    </div>
+    <div style="margin-top:90px">
+      <div style="font-family:'CompactaLetPlain','Compacta',sans-serif;font-size:30px;letter-spacing:0.01em;text-transform:uppercase;color:#000000;border-top:1px solid #000000;padding-top:24px;margin-bottom:20px">You may also like</div>
+      <div class="rel-grid">${related}</div>
+    </div>
+  </div>`;
+}
+
+/* ============================================================
+   OUR STORY
+   ============================================================ */
+function pageStory(){
+  const tabs = STORY_TABS.map((t,i)=>`<button data-storytab="${i}" style="${tabStyle(state.storyTab===i)}">${t}</button>`).join('');
+  const CRAFT_MORE = {
+    BRASS:'General Decoration works brass with a handful of Belgian craftsmen, faithful to the methods of Jules Wabbes. Each piece is finished by hand and available in several finishes — brushed, polished or nickel-plated brass — each developing its own character and patina over time.',
+    BRONZE:'Bronze is sand-cast and left raw, so it develops its natural patina slowly over the years. Used for handles, door pushers and sculptural accessories, every cast is unique and ages with use — it can even be used outdoors in all weather.',
+    WOOD:'Solid wengé (Millettia laurentii) is chosen for its dense, dark grain. On pieces such as the round dining table designed in 1966, rectangular blocks of wengé are glued together to form an end-grain board, in a deep palette of dark brown.'
+  };
+  const craftCols = CRAFT.map(c=>`
+    <div style="flex:1;border-right:1px solid #000000;display:flex;flex-direction:column">
+      <div class="ph" style="aspect-ratio:1/1;background-color:#E8E8E8;padding:16px"><span style="font-size:9px">MATERIAL — ${c.label}</span></div>
+      <div style="padding:34px 30px 24px;border-top:1px solid #000000;display:flex;flex-direction:column;flex:1">
+        <div style="font-family:'CompactaLetPlain','Compacta',sans-serif;font-size:24px;margin-top:0;text-transform:uppercase">${c.sub}</div>
+        <p class="prose" style="font-size:15px;margin:18px 0 24px;min-height:108px">${c.text}</p>
+        <div>${acc('Read more', `<p class="prose" style="font-size:15px;margin:0">${CRAFT_MORE[c.label]||''}</p>`)}</div>
+      </div>
+    </div>`).join('');
+  return `
+  <div>
+    <div class="pad-x" style="padding:92px 48px;text-align:center;border-bottom:1px solid #000000">
+      <div style="font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:#111111;margin-bottom:24px">Our Story</div>
+      <h1 style="font-size:38px;line-height:1.14;text-transform:uppercase;letter-spacing:0.01em;margin:0 auto;max-width:1200px">The history of Jules Wabbes and the people keeping his work alive today</h1>
+    </div>
+
+    <div id="sec-jw" style="scroll-margin-top:200px"></div>
+    <div class="row-split" style="display:flex;align-items:stretch;border-bottom:1px solid #000000">
+      <div class="ph" style="flex:0 0 42%;min-height:460px;background-color:#111111;background-image:var(--hatch-dark);padding:20px"><span style="font-size:10px;color:#9A958B">PORTRAIT — JULES WABBES (B&amp;W)</span></div>
+      <div class="pad-x" style="flex:1;padding:120px 88px;display:flex;flex-direction:column;justify-content:center">
+        <div style="font-size:13px;letter-spacing:0.22em;text-transform:uppercase;color:#111111;margin-bottom:24px">Jules Wabbes · 1919–1974</div>
+        <h2 style="font-size:36px;line-height:1.12;margin:0 0 26px;text-transform:uppercase;letter-spacing:0.01em">A defining figure of post-war Belgian design</h2>
+        <blockquote style="font-family:'Courier Prime',monospace;font-size:13px;line-height:1.6;color:#9A9A9A;margin:0 0 30px;padding-left:0;max-width:560px;white-space:nowrap">« L'objet doit être fonctionnel, mais jamais au détriment de la beauté. »</blockquote>
+        <p class="prose" style="margin:0 0 18px;max-width:560px">Jules Wabbes (1919–1974) was a Belgian interior architect and furniture designer who profoundly shaped post-war Belgian interiors.</p>
+        <p class="prose" style="margin:0 0 34px;max-width:560px">Working in solid wengé, brass and bronze, he produced furniture for private clients, embassies and prestigious buildings across Brussels.</p>
+        <div class="lnk" data-go="storyFull" style="align-self:flex-start;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:#000000;border-bottom:1px solid #000000;padding-bottom:6px">Read more</div>
+      </div>
+    </div>
+
+    <div id="sec-gd" style="scroll-margin-top:30px"></div>
+    <div class="row-split" style="display:flex;align-items:stretch;border-bottom:1px solid #000000">
+      <div class="pad-x" style="flex:1;padding:120px 88px;display:flex;flex-direction:column;justify-content:center;order:1">
+        <div style="font-size:13px;letter-spacing:0.22em;text-transform:uppercase;color:#111111;margin-bottom:24px">Exclusive editor since 1969</div>
+        <h2 style="font-size:36px;line-height:1.12;margin:0 0 26px;text-transform:uppercase;letter-spacing:0.01em">General Decoration</h2>
+        <p class="prose" style="margin:0 0 18px;max-width:560px">Founded by Jules Wabbes in 1969, General Decoration (GEDE) designs, produces and distributes his lamps, furniture and accessories.</p>
+        <p class="prose" style="margin:0 0 18px;max-width:560px">Faithful to the ideas of Jules Wabbes, General Decoration works only with a handful of Belgian craftsmen and noble materials such as bronze and brass.</p>
+        <p class="prose" style="margin:0;max-width:560px">Today the company holds the exclusive licence to reissue and edit the Jules Wabbes archive.</p>
+      </div>
+      <div class="ph" style="flex:0 0 42%;min-height:460px;background-color:#E8E8E8;padding:20px;order:2"><span style="font-size:10px;color:#111111">GENERAL DECORATION — WORKSHOP</span></div>
+    </div>
+
+    <div id="sec-craft" style="scroll-margin-top:30px"></div>
+    ${sectionBar('Craftsmanship')}
+    <div class="cats" style="display:flex;border-bottom:1px solid #000000">${craftCols}</div>
+
+    <div id="sec-colet" style="scroll-margin-top:30px"></div>
+    ${sectionBar('Caroline & Vincent Colet')}
+    <div class="row-split" style="display:flex;align-items:stretch;border-bottom:1px solid #000000">
+      <div style="flex:0 0 42%;min-height:440px;align-self:stretch"><img src="images/caroline-vincent-colet.webp" alt="Caroline & Vincent Colet" style="width:100%;height:100%;object-fit:cover;display:block"/></div>
+      <div class="pad-x" style="flex:1;padding:120px 88px;display:flex;flex-direction:column;justify-content:center">
+        <div style="font-size:13px;letter-spacing:0.22em;text-transform:uppercase;color:#111111;margin-bottom:18px">Selection &amp; Curation · Production &amp; Direction</div>
+        <h2 style="font-size:32px;line-height:1.12;margin:0 0 24px;text-transform:uppercase;letter-spacing:0.01em">Caroline &amp; Vincent Colet</h2>
+        <p class="prose" style="margin:0 0 16px;max-width:560px">The people behind Jules Wabbes today. Together, Caroline and Vincent keep the work alive with the same standards of craft and material.</p>
+        <p class="prose" style="margin:0 0 18px;max-width:560px">Caroline oversees the selection and curation of the archive and its reissues.</p>
+        <p class="prose" style="margin:0 0 34px;max-width:560px">Vincent leads production and the direction of the General Decoration workshops in Belgium.</p>
+        <div class="lnk" data-go="colet" style="align-self:flex-start;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:#000000;border-bottom:1px solid #000000;padding-bottom:6px">Read more</div>
+      </div>
+    </div>
+
+    <div id="sec-news" style="scroll-margin-top:30px"></div>
+    ${sectionBar('News')}
+    <div class="cats" style="display:flex;border-bottom:1px solid #000000">${NEWS.map(n=>`
+      <div class="card" data-news="${n.key}" style="flex:1;border-right:1px solid #000000">
+        <div class="ph" style="aspect-ratio:1/1;background-color:#E8E8E8;padding:16px"><span style="font-size:9px">${n.shot}</span></div>
+        <div style="padding:34px 30px 44px;border-top:1px solid #000000">
+          <div class="name" style="font-family:'CompactaLetPlain','Compacta',sans-serif;font-size:24px;margin-top:0;text-transform:uppercase;line-height:1.05">${n.title}</div>
+          <p class="prose" style="font-size:15px;margin:18px 0 0">${n.text}</p>
+        </div>
+      </div>`).join('')}</div>
+  </div>`;
+}
+
+/* full biography page (read more) */
+function pageStoryFull(){
+  const P = (t)=>`<p class="prose" style="margin:0 0 24px">${t}</p>`;
+  // image placeholder — swap the inner .ph block for <img src="…" style="width:100%;display:block"> later
+  const fig = (label,caption,ratio='4/3')=>`
+    <figure style="margin:0">
+      <div class="ph" style="aspect-ratio:${ratio};background-color:#E8E8E8;background-image:var(--hatch-light);padding:16px"><span style="font-size:9px">${label}</span></div>
+      ${caption?`<figcaption style="font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:#9A9A9A;margin-top:12px">${caption}</figcaption>`:''}
+    </figure>`;
+  // section heading inside the article
+  const H = (t)=>`
+    <div style="margin:64px 0 26px">
+      <span style="display:block;width:26px;height:1px;background:#000000;margin-bottom:18px"></span>
+      <h2 style="font-size:26px;line-height:1.14;margin:0;text-transform:uppercase;letter-spacing:0.01em">${t}</h2>
+    </div>`;
+  return `
+  <div>
+    <div class="ph pad-x" style="height:380px;background-color:#111111;background-image:var(--hatch-dark);padding:28px 40px"><span style="font-size:11px;letter-spacing:0.16em;color:#111111">PORTRAIT — JULES WABBES (B&amp;W)</span></div>
+    <div class="pad-x" style="max-width:760px;margin:0 auto;padding:80px 40px 110px">
+      <div class="lnk" data-go="story" style="font-size:11px;letter-spacing:0.18em;font-weight:700;text-transform:uppercase;color:#111111;margin-bottom:40px;display:inline-block;border-bottom:1px solid #111111;padding-bottom:6px">← Back to Our Story</div>
+      <div style="font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:#111111;margin-bottom:18px">JULES WABBES · 1919–1974</div>
+      <h1 style="font-size:40px;line-height:1.1;margin:0 0 40px;letter-spacing:-0.01em">Biography, career and lasting influence.</h1>
+
+      ${P('Jules Wabbes is one of the leading Belgian furniture designers and interior architects of the post-war period. He first opened an antiques and decoration shop in Brussels before starting to create his own furniture and objects.')}
+      ${P('In cooperation with architect André Jacqmain, he was able to perfect his office furniture and accessories into large-scale interior design and architecture commissions for banks and office spaces such as the Foncolin Building, the Glaverbel quarters or the Générale de Banque and its strongroom. He was known for his office desks, tables and cabinets crafted from precious and exotic woods on elegant frames of stainless steel. His attention to every detail led him to create a collection of metal accessories to fit into these interiors.')}
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin:40px 0">
+        ${fig('PHOTO — DESK / TABLE','Precious woods on stainless-steel frames','3/4')}
+        ${fig('PHOTO — INTERIOR / BANK','Large-scale interior commissions','3/4')}
+      </div>
+      ${P('He co-founded a first successful company, Mobilier Universel, in 1957 that also produced American designers, as Wabbes travelled extensively to the USA in that period. He eventually furnished the American embassies of London, Dakar and Rabat. A few years later, he was ousted from Mobilier Universel, unwilling to compromise quality for profit.')}
+      ${P('Wabbes was awarded several prizes, notably in 1957 and 1960 at the Milan Triennial.')}
+
+      ${H('Established in 1969 by Jules Wabbes')}
+      ${P('It was then, in 1969, that he founded General Decoration in Brussels — a company dedicated to manufacturing and retailing metal accessories exclusively designed by Jules Wabbes, run entirely on his own uncompromising standards. This set of elegant and functional objects, essential to any interior, was designed throughout his career as part of a vision for interiors conceived as a refined and coherent ensemble. The only thing that mattered to him was the sincere expression of quality in every detail.')}
+      ${P('The level of craftsmanship and the use of the very best materials are the genuine signature of Jules Wabbes. Each General Decoration accessory is handmade in metal – bronze, brass or steel – all materials favoured by Wabbes for their resistance and nobility.')}
+      ${fig('PHOTO — WORKSHOP / CRAFTSMANSHIP','Handmade in metal — bronze, brass, steel','16/9')}
+      ${P('We are still producing each of his objects using the exact same materials he used, crafted in small quantities by artisans in Belgium. When applicable, the object is stamped to certify its authenticity. Each object comes with an official certificate of authenticity, signed by Marie Wabbes (rights holder) and Vincent Colet (editor of the Wabbes collection).')}
+
+      ${H("Wabbes' family heritage")}
+      ${P('After the passing of Jules Wabbes, General Decoration has never ceased to exist, for Jules Wabbes’ spouse took over and had some objects produced while keeping all intellectual property.')}
+      ${P('In 2013, Vincent Colet — antiquarian, expert and editor of objects — together with the Wabbes family, and particularly with Marie Ferran-Wabbes — Jules Wabbes’ daughter and art historian — decided to reinvigorate General Decoration with the ideals and spirit of its beginnings.')}
+
+      ${H('Timeless heritage')}
+      ${P('Jules Wabbes remained deeply influenced by his first vocation as an antiquarian, which shaped his classical approach to interiors and architectural details. He was captivated by forms conceived to stand the test of time. His work embodies pure quality, expressed through the thoughtful use and harmonious combination of exceptional materials.')}
+      ${P('Today, General Decoration upholds the same standards of excellence envisioned by its founder. Each piece is crafted as an authentic expression of timeless design — made to last, and to be passed down from one generation to the next.')}
+
+      <div style="margin-top:60px">
+        <button class="btn-out" data-go="collection" style="font-size:11px;letter-spacing:0.18em;text-transform:uppercase;padding:16px 32px">Explore the collection →</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+/* news detail page */
+const EXH_SPACES = [
+  {name:'Brugmann', addr:'Place Georges Brugmann 5 · 1050 Brussels', shot:'EXHIBITION SPACE — BRUGMANN'},
+  {name:'Darwin',   addr:'Rue Darwin 60 · 1050 Brussels',          shot:'EXHIBITION SPACE — DARWIN'}
+];
+const EXT = (url,label)=>`<a href="${url}" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:2px">${label}</a>`;
+const EXH_PAST = [
+  {name:'Zwart Huis', city:'Knokke · BE', date:'1 Jul – 15 Sep 2019', note:`Invited by ${EXT('https://www.evavelazquez.com/','Eva Velazquez')} & Atelier Bellevue.`},
+  {name:'International Interior Design Exhibition (iide)', href:'https://shopbetaplus.com/products/international-interior-design-exhibition-brussels', city:'Tours & Taxis, Brussels · BE', date:'17–25 Nov 2018', note:'An exclusive selection of the Jules Wabbes collection.'},
+  {name:'Colours & Design', city:'Av. Louis Lepoutre, Brussels · BE', date:'6–10 Dec 2017', note:'11:00 – 19:00.'},
+  {name:'Frederic Hooft Gallery', href:'https://www.frederichooft.be/', city:'Gent · BE', date:'From 26 Nov 2017', note:'By appointment · +32 477 437 606.'},
+  {name:'Angela Weber Möbel', href:'https://angelaweber.ch/', city:'Zürich · CH', date:'4 Jan – 11 Feb 2017', note:'Bahnhofstrasse 3, 8001 Zürich.'},
+  {name:'Frederic Hooft Gallery', href:'https://www.frederichooft.be/', city:'Gent · BE', date:'From 21 Feb 2016', note:'By appointment · +32 477 437 606.'}
+];
+function pageExhibitions(){
+  const spaces = EXH_SPACES.map(s=>`
+    <div class="card cell" style="display:flex;flex-direction:column">
+      <div class="ph" style="aspect-ratio:4/3;background-color:#E8E8E8;background-image:var(--hatch-light);padding:16px"><span style="font-size:9px">${s.shot}</span></div>
+      <div class="cell-foot" style="flex-direction:column;align-items:flex-start;gap:8px;min-height:0;padding:24px 24px">
+        <div class="name" style="font-family:'CompactaLetPlain','Compacta',sans-serif;font-size:24px;text-transform:uppercase;line-height:1">${s.name}</div>
+        <div style="font-size:12px;color:#111111">${s.addr}</div>
+        <div style="font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:#9A9A9A;margin-top:4px">Visits by appointment only</div>
+      </div>
+    </div>`).join('');
+  const past = EXH_PAST.map(p=>`
+    <div class="cell" style="display:flex;flex-direction:column">
+      <div class="ph" style="position:relative;aspect-ratio:4/3;background-color:#E8E8E8;background-image:var(--hatch-light);padding:14px">
+        <span style="font-size:9px">EXHIBITION — ${p.name}</span>
+        <span class="cat-tab">${p.date}</span>
+      </div>
+      <div style="padding:24px 26px 28px;border-top:1px solid #000000;display:flex;flex-direction:column;flex:1">
+        <div style="font-family:'CompactaLetPlain','Compacta',sans-serif;font-size:21px;text-transform:uppercase;line-height:1.05;margin-bottom:10px">${p.href?`<a href="${p.href}" target="_blank" rel="noopener" style="color:inherit;text-decoration:none">${p.name}</a>`:p.name}</div>
+        <div style="font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:#111111;margin-bottom:10px">${p.city}</div>
+        <p class="prose" style="font-size:13px;margin:0">${p.note}</p>
+      </div>
+    </div>`).join('');
+  return `
+  <div>
+    <div class="pad-x" style="padding:64px 48px;text-align:center;border-bottom:1px solid #000000">
+      <div style="font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:#111111;margin-bottom:20px">News · Exhibitions</div>
+      <h1 style="font-size:42px;line-height:1.1;text-transform:uppercase;letter-spacing:0.01em;margin:0 auto 22px;max-width:1000px">Exhibitions</h1>
+      <p class="prose" style="max-width:620px;margin:0 auto">Discover where you can view the work of the Belgian designer Jules Wabbes — from our permanent exhibition spaces in Brussels to the fairs and galleries that have presented the collection.</p>
+    </div>
+
+    <div class="pad-x" style="padding:40px 48px 14px"><div style="max-width:1140px;margin:0 auto">
+      <div class="lnk" data-go="story" style="font-size:11px;letter-spacing:0.18em;font-weight:700;text-transform:uppercase;color:#111111;display:inline-block;border-bottom:1px solid #111111;padding-bottom:6px;margin-bottom:40px">← Back to Our Story</div>
+      <div style="margin-bottom:26px">
+        <h2 style="font-size:22px;margin:0;text-transform:uppercase;letter-spacing:0.01em">Exhibition spaces</h2>
+      </div>
+    </div></div>
+    <div class="pad-x" style="padding:0 48px 56px"><div class="exh-spaces">${spaces}</div></div>
+
+    <div class="pad-x" style="padding:14px 48px 14px;border-top:1px solid #000000"><div style="max-width:1140px;margin:0 auto">
+      <div style="margin:40px 0 26px">
+        <h2 style="font-size:22px;margin:0;text-transform:uppercase;letter-spacing:0.01em">Past exhibitions</h2>
+      </div>
+    </div></div>
+    <div class="pad-x" style="padding:0 48px 100px"><div class="exh-past">${past}</div></div>
+  </div>`;
+}
+const AUCTIONS = [
+  {name:'Honeycomb Wall Lamp', house:'PIASA', date:'21 Jan 2026', price:'€11,831'},
+  {name:'Small Slatted Coat Racks', house:'PIASA', date:'21 Jan 2026', price:'€13,146'},
+  {name:'Large Hexagonal Table Lamp', house:'PIASA', date:'21 Jan 2026', price:'€6,573'},
+  {name:'Large Round Brass Pendant', house:'PIASA', date:'21 Jan 2026', price:'€21,034'},
+  {name:'Gérard Philipe Writing Table', house:'PIASA', date:'21 Jan 2026', price:'€47,326'},
+  {name:'Trestles', house:'PIASA', date:'21 Jan 2026', price:'€13,803'},
+  {name:'Large Slatted Coat Racks', house:'PIASA', date:'21 Jan 2026', price:'€15,775'},
+  {name:'Honeycomb Wall Lamp', house:'Cornette de Saint Cyr', date:'5 Jun 2023', price:'€17,920'},
+  {name:'Honeycomb Wall Lamp', house:"Christie's", date:'25 May 2023', price:'€17,000'},
+  {name:'Large Slatted Coat Racks', house:'Cornette de Saint Cyr', date:'20 Nov 2022', price:'€22,750'},
+  {name:'Trestles', house:'Cornette de Saint Cyr', date:'20 Nov 2022', price:'€15,600'},
+  {name:'Honeycomb Wall Lamp', house:'Cornette de Saint Cyr', date:'21 Nov 2021', price:'€6,500'},
+  {name:'Trestles', house:'PIASA', date:'23 Jun 2021', price:'€10,400'},
+  {name:'Small Hexagonal Table Lamp', house:"Christie's", date:'1 Jun 2021', price:'€10,500'},
+  {name:'Osaka Ceiling Lamp', house:'Cornette de Saint Cyr', date:'10 May 2021', price:'€18,200'},
+  {name:'Large Interior Bronze Wall Lamp', house:'Cornette de Saint Cyr', date:'10 May 2021', price:'€11,700'},
+  {name:'Coat Peg', house:'Cornette de Saint Cyr', date:'10 May 2021', price:'€1,690'},
+  {name:'Trestles', house:'Cornette de Saint Cyr', date:'15 Dec 2020', price:'€15,600'},
+  {name:'Iron Door Handle & Door Pusher', house:'Cornette de Saint Cyr', date:'15 Dec 2020', price:'€2,340'},
+  {name:'Trestles', house:'Cornette de Saint Cyr', date:'15 Dec 2020', price:'€7,930'},
+  {name:'Osaka Ceiling Lamp', house:'Cornette de Saint Cyr', date:'15 Dec 2020', price:'€19,840'},
+  {name:'Small Hexagonal Table Lamp', house:'Cornette de Saint Cyr', date:'15 Dec 2020', price:'€6,500'},
+  {name:'Small Slatted Coat Racks', house:'Cornette de Saint Cyr', date:'15 Dec 2020', price:'€5,850'},
+  {name:'Small Hexagonal Table Lamp', house:'Cornette de Saint Cyr', date:'24 Nov 2019', price:'€3,640'},
+  {name:'Honeycomb Wall Lamp', house:'Cornette de Saint Cyr', date:'24 Nov 2019', price:'€11,700'},
+  {name:'Trestles', house:'Cornette de Saint Cyr', date:'24 Nov 2019', price:'€7,540'},
+  {name:'Butterfly Coat Racks', house:'Cornette de Saint Cyr', date:'24 Nov 2019', price:'€5,460'},
+  {name:'Honeycomb Wall Lamp', house:'Cornette de Saint Cyr', date:'27 May 2019', price:'€8,060'},
+  {name:'Trestles', house:'Cornette de Saint Cyr', date:'27 May 2019', price:'€11,700'},
+  {name:'Large Hexagonal Table Lamp', house:'Cornette de Saint Cyr', date:'1 Nov 2018', price:'€5,200'},
+  {name:'Honeycomb Wall Lamp', house:'Cornette de Saint Cyr', date:'19 Nov 2017', price:'€6,240'},
+  {name:'Small Round Brass Pendant', house:'Cornette de Saint Cyr', date:'19 Nov 2017', price:'€9,100'},
+  {name:'Trestles', house:'Cornette de Saint Cyr', date:'19 Nov 2017', price:'€7,150'},
+  {name:'Garden Lamp', house:'Cornette de Saint Cyr', date:'12 Dec 2016', price:'€3,750'},
+  {name:'Trestles', house:'Pierre Bergé & Associés', date:'1 Jun 2016', price:'€14,194'},
+  {name:'Small Hexagonal Table Lamp', house:'Cornette de Saint Cyr', date:'23 May 2016', price:'€9,000'},
+  {name:'Honeycomb Wall Lamp', house:'Cornette de Saint Cyr', date:'23 May 2016', price:'€16,250'},
+  {name:'Honeycomb Wall Lamp', house:'Horta', date:'22 Feb 2016', price:'€16,000'},
+  {name:'Iron Door Handle & Door Pusher', house:'Cornette de Saint Cyr', date:'7 Dec 2015', price:'€2,250'},
+  {name:'Large Interior Bronze Wall Lamp', house:'Cornette de Saint Cyr', date:'7 Dec 2015', price:'€5,750'},
+  {name:'Large Hexagonal Table Lamp', house:'Cornette de Saint Cyr', date:'7 Dec 2015', price:'€6,875'},
+  {name:'Honeycomb Ceiling Lamp', house:'Uccle St Job', date:'23 Nov 2015', price:'€58,000'},
+  {name:'Coat Peg', house:'Cornette de Saint Cyr', date:'9 Jun 2015', price:'€3,750'},
+  {name:'Trestles', house:'Cornette de Saint Cyr', date:'9 Jun 2015', price:'€12,500'},
+  {name:'Large Interior Bronze Wall Lamp', house:'Cornette de Saint Cyr', date:'9 Jun 2015', price:'€4,625'},
+  {name:'Honeycomb Ceiling Lamp', house:"Sotheby's", date:'24 Apr 2015', price:'€84,600'},
+  {name:'Honeycomb Wall Lamp', house:'Cornette de Saint Cyr', date:'18 Nov 2014', price:'€5,000'},
+  {name:'Honeycomb Wall Lamp', house:'Cornette de Saint Cyr', date:'18 Nov 2014', price:'€6,240'},
+  {name:'Honeycomb Ceiling Lamp', house:'Cornette de Saint Cyr', date:'18 Nov 2014', price:'€60,000'},
+  {name:'Fire Belt', house:'Pierre Bergé & Associés', date:'12 Dec 2013', price:'€1,400'},
+  {name:'Large Interior Bronze Wall Lamp', house:'Cornette de Saint Cyr', date:'25 Nov 2013', price:'€6,750'},
+  {name:'Trestles', house:'Cornette de Saint Cyr', date:'25 Nov 2013', price:'€31,250'},
+  {name:'Coat Peg', house:'Cornette de Saint Cyr', date:'25 Nov 2013', price:'€5,250'},
+  {name:'Osaka Ceiling Lamp', house:'Cornette de Saint Cyr', date:'25 Nov 2013', price:'€32,500'},
+  {name:'Large Interior Bronze Wall Lamp', house:'Cornette de Saint Cyr', date:'25 Nov 2013', price:'€10,625'},
+  {name:'11-Band Wall Lamp', house:'Cornette de Saint Cyr', date:'3 Jun 2013', price:'€3,750'},
+  {name:'Trestles', house:'Cornette de Saint Cyr', date:'10 Dec 2012', price:'€12,000'},
+  {name:'Large Interior Bronze Wall Lamp', house:'Pierre Bergé & Associés', date:'15 Dec 2010', price:'€5,500'},
+  {name:'Large Hexagonal Table Lamp', house:'Pierre Bergé & Associés', date:'15 Dec 2010', price:'€10,000'},
+  {name:'11-Band Wall Lamp', house:'Cornette de Saint Cyr', date:'18 Jun 2007', price:'€7,500'}
+];
+function pageAuction(){
+  // match each auction lot to its product page index (tolerant to plural/punctuation)
+  const norm = s=>s.toLowerCase().replace(/&/g,'and').replace(/[^a-z0-9]/g,'');
+  const PMAP = {}; PRODUCTS.forEach((p,i)=>{ PMAP[norm(p.name)]=i; });
+  const idxFor = name=>{ const k=norm(name); const i = PMAP[k] ?? PMAP[k.replace(/s$/,'')] ?? PMAP[k+'s']; return i===undefined?-1:i; };
+  const latest = AUCTIONS.slice(0,6).map(a=>{ const h=idxFor(a.name); return `
+    <div class="${h>=0?'card ':''}cell" ${h>=0?`data-open="${h}"`:''} style="display:flex;flex-direction:column">
+      <div class="ph" style="position:relative;aspect-ratio:4/3;background-color:#E8E8E8;background-image:var(--hatch-light);padding:14px">
+        <span style="font-size:9px">LOT — ${a.name}</span>
+        <span class="cat-tab">${a.date}</span>
+      </div>
+      <div style="padding:22px 24px 24px;border-top:1px solid #000000;display:flex;flex-direction:column;flex:1">
+        <div style="font-family:'CompactaLetPlain','Compacta',sans-serif;font-size:28px;line-height:1;margin-bottom:12px">${a.price}</div>
+        <div class="name" style="font-size:13px;color:#000000;margin-bottom:10px">${a.name}</div>
+        <div style="font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:#9A9A9A;margin-top:auto">${a.house}</div>
+      </div>
+    </div>`; }).join('');
+  const aucBox = a=>{ const h=idxFor(a.name); return `
+    <details class="acc press-box">
+      <summary><span>${a.name}</span><span style="color:#9A9A9A;letter-spacing:0.08em;margin-left:auto;padding-right:16px">${a.price}</span></summary>
+      <div class="acc-body" style="padding:0 0 22px">
+        <p class="prose" style="font-size:13px;margin:0">Sold at <strong>${a.house}</strong> — ${a.date} · result <strong>${a.price}</strong>.</p>
+        ${h>=0?`<div style="text-align:right"><span class="lnk" data-open="${h}" style="display:inline-block;margin-top:14px;font-size:10px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:#000000;border-bottom:1px solid #000000;padding-bottom:5px">View the product →</span></div>`:''}
+      </div>
+    </details>`; };
+  const rows = AUCTIONS.slice(0,5).map(aucBox).join('');
+  const rowsRest = AUCTIONS.slice(5).map(aucBox).join('');
+  const rowsMore = rowsRest ? `
+    <details class="press-more">
+      <summary class="press-more-btn">Show all results (${AUCTIONS.length})</summary>
+      <div style="margin-top:14px">${rowsRest}</div>
+    </details>` : '';
+  return `
+  <div>
+    <div class="pad-x" style="padding:64px 48px;text-align:center;border-bottom:1px solid #000000">
+      <div style="font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:#111111;margin-bottom:20px">News · Auction results</div>
+      <h1 style="font-size:42px;line-height:1.1;text-transform:uppercase;letter-spacing:0.01em;margin:0 auto 22px;max-width:1000px">Auction results</h1>
+      <p class="prose" style="max-width:640px;margin:0 auto">Discover the latest auction results for Jules Wabbes’ objects. His pieces — particularly in bronze, brass and solid wengé — are increasingly sought after by collectors worldwide, with strong results at international auction houses.</p>
+    </div>
+
+    <div class="pad-x" style="padding:40px 48px 14px"><div style="max-width:1140px;margin:0 auto">
+      <div class="lnk" data-go="story" style="font-size:11px;letter-spacing:0.18em;font-weight:700;text-transform:uppercase;color:#111111;display:inline-block;border-bottom:1px solid #111111;padding-bottom:6px;margin-bottom:40px">← Back to Our Story</div>
+      <h2 style="font-size:22px;margin:0 0 26px;text-transform:uppercase;letter-spacing:0.01em">Latest results · PIASA, January 2026</h2>
+    </div></div>
+    <div class="pad-x" style="padding:0 48px 56px"><div class="exh-past">${latest}</div></div>
+
+    <div class="pad-x" style="padding:14px 48px 90px;border-top:1px solid #000000"><div style="max-width:1140px;margin:0 auto">
+      <h2 style="font-size:22px;margin:40px 0 26px;text-transform:uppercase;letter-spacing:0.01em">All results · 2007 – 2026</h2>
+      <div>${rows}${rowsMore}</div>
+    </div></div>
+  </div>`;
+}
+const PRESS_FEATURED = [
+  {pub:'Living — Corriere della Sera', date:'January 2026', title:'Just outside Brussels, Labscape reinterprets a 1930s masterpiece', desc:'The Italian title of Corriere della Sera visits Villa Nisot near Brussels, where studio Labscape reinterprets a 1930s modernist masterpiece — an interior punctuated with original Jules Wabbes pieces.', href:'https://living.corriere.it/case/eclettiche/villa-nisot-bruxelles-studio-labscape-capolavoro-modernista-anni-30/'},
+  {pub:'Wallpaper', date:'October 2022', title:'Restored Villa Nisot in Brussels brings modernism to the 21st century', desc:'Wallpaper* documents the restoration of Villa Nisot by Labscape, showing how a Belgian modernist landmark is brought into the 21st century while keeping Wabbes furniture at its heart. Photography by Nicolas Schimp.', href:'https://www.wallpaper.com/architecture/villa-nisot-labscape-brussels-belgium'},
+  {pub:'GUS', date:'January 2024', title:'Celebrating the legacy of Jules Wabbes: 50th anniversary and the resurrection of the M57 lamp', desc:'Iker Jauregi marks fifty years of General Decoration as the exclusive editor of Jules Wabbes, and tells the story of the reissue of the long-lost M57 lamp.', href:'https://gusmen.com/2024/01/09/celebrating-the-legacy-of-jules-wabbes-50th-anniversary-and-the-resurrection-of-the-m57-lamp'},
+  {pub:'Le Figaro Magazine', date:'May 2024', title:'Jean Imbert, chef de la Palme d’Or au Martinez de Cannes', desc:'A feature on Rémi Tessier’s design for Jean Imbert’s restaurant at the Martinez Hotel in Cannes, where Jules Wabbes pieces feature in the interior.', href:'https://www.lefigaro.fr/gastronomie/apres-le-plaza-athenee-et-cheval-blanc-rencontre-avec-jean-imbert-chef-de-la-palme-d-or-au-martinez-de-cannes-20240524'},
+  {pub:'ICON — Welt am Sonntag', date:'February 2025', title:'Was kommt? Was bleibt?', desc:'In its supplement to Welt am Sonntag, ICON explores what comes and what stays in design — with Jules Wabbes among the names whose work endures.'},
+  {pub:'AD Magazine', date:'May 2023', title:'A modernist achievement in the Westhinder villa', desc:'AD Magazine features Aurélie Penneman’s achievement in the famous modernist Westhinder villa, designed by architect Henry Van de Velde in the 1920s. Photography by Alice Mesguich.'}
+];
+const PRESS_ALL = [
+  {pub:'Ideat', date:'December 2025'},
+  {pub:'AD Magazine', date:'November 2025'},
+  {pub:'So Soir', date:'March 2024'},
+  {pub:'La Libre Essentielle', date:'February 2024'},
+  {pub:'Sabato', date:'February 2024'},
+  {pub:'WBDM — Wallonie-Bruxelles Design Mode', date:'February 2024', href:'https://www.wbdm.be/en/news/jules-wabbes-very-good-general/'},
+  {pub:'Belgium is Design', date:'February 2024', href:'https://www.belgiumisdesign.be/magazine/jules-wabbes-very-good-general'},
+  {pub:'Elle Decor Italia', date:'December 2023'},
+  {pub:'Villas — Belgian Talents', date:'December 2023'},
+  {pub:'Le Vif-Weekend', date:'September 2023'},
+  {pub:'Beta Plus', date:'June 2023'},
+  {pub:'The World of Interiors', date:'April 2021'},
+  {pub:'Numéro Art', date:'Summer 2020'},
+  {pub:'Fuorisalone Digital Milano', date:'June 2020'},
+  {pub:'Imagicasa', date:'Spring 2020'},
+  {pub:'The World of Interiors', date:'January 2020'},
+  {pub:'Villas', date:'December 2019'},
+  {pub:'Le Vif-Weekend', date:'October 2019'},
+  {pub:'Design Museum Gent — Object Stories', date:'July 2019'},
+  {pub:'Villas', date:'June 2019'},
+  {pub:'ADAM', date:'May 2019'},
+  {pub:'Vogue', date:'April 2019'},
+  {pub:'Villas', date:'March 2019'},
+  {pub:'Le Vif-Weekend', date:'January 2019'},
+  {pub:'AD Magazine — Modernist duplex in Brussels', date:'January 2019', href:'https://www.admagazine.fr/architecture/actualite-architecture/diaporama/a-vendre-un-duplex-moderniste-a-bruxelles/54515'},
+  {pub:'Interior Design Masters', date:'August 2018'},
+  {pub:'Villas', date:'May 2018'},
+  {pub:'Gael Maison', date:'April – May 2018'},
+  {pub:'Marie Claire Maison', date:'March 2018'},
+  {pub:'Miles', date:'March 2018'},
+  {pub:'Feest — De Morgen', date:'November 2017'},
+  {pub:'The World of Interiors', date:'March 2017'},
+  {pub:'Elle Decoration', date:'March 2017'},
+  {pub:'Fonds Erasme', date:'May 2016'},
+  {pub:'Marie Claire', date:'April 2016'},
+  {pub:'Gespot', date:'February 2016'},
+  {pub:'Sabato', date:'May 2015'},
+  {pub:'Knack — Le Vif', date:'March 2015'}
+];
+function pagePress(){
+  const feat = PRESS_FEATURED.map(p=>`
+    <details class="press-card cell">
+      <summary>
+        <div class="ph" style="position:relative;aspect-ratio:4/3;background-color:#E8E8E8;background-image:var(--hatch-light);padding:14px">
+          <span style="font-size:9px">PRESS — ${p.pub}</span>
+          <span class="cat-tab">${p.date}</span>
+        </div>
+        <div style="padding:22px 24px 24px;border-top:1px solid #000000;display:flex;flex-direction:column">
+          <div style="font-family:'CompactaLetPlain','Compacta',sans-serif;font-size:18px;line-height:1.1;text-transform:uppercase;margin-bottom:12px">${p.pub}</div>
+          <p class="prose" style="font-size:13px;margin:0 0 14px;min-height:92px">${p.title}</p>
+          <span class="ptog" style="font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:#111111">Read more</span>
+        </div>
+      </summary>
+      <div style="padding:4px 24px 26px;border-top:1px solid #E2E2E2;text-align:right">
+        <p class="prose" style="font-size:13px;margin:18px 0 0;text-align:left">${p.desc||p.title}</p>
+        ${p.href?`<a href="${p.href}" target="_blank" rel="noopener" style="display:inline-block;margin-top:18px;font-size:10px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:#000000;text-decoration:none;border-bottom:1px solid #000000;padding-bottom:5px">Read the full article →</a>`:''}
+      </div>
+    </details>`).join('');
+  const pressBox = p=>`
+    <details class="acc press-box">
+      <summary><span>${p.pub}</span><span style="color:#9A9A9A;letter-spacing:0.08em;margin-left:auto;padding-right:16px">${p.date}</span></summary>
+      <div class="acc-body" style="padding:0 0 22px">
+        <p class="prose" style="font-size:13px;margin:0 0 16px">Featured in <strong>${p.pub}</strong> — ${p.date}.</p>
+        ${p.href
+          ? `<div style="text-align:right"><a href="${p.href}" target="_blank" rel="noopener" style="display:inline-block;font-size:10px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:#000000;text-decoration:none;border-bottom:1px solid #000000;padding-bottom:5px">Read the full article →</a></div>`
+          : `<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px">
+               <div class="ph" style="aspect-ratio:3/4;background-color:#E8E8E8;background-image:var(--hatch-light);padding:12px"><span style="font-size:8px">PRINT — ${p.pub}</span></div>
+               <div class="ph" style="aspect-ratio:3/4;background-color:#E8E8E8;background-image:var(--hatch-light);padding:12px"><span style="font-size:8px">PRINT — SPREAD</span></div>
+               <div class="ph" style="aspect-ratio:3/4;background-color:#E8E8E8;background-image:var(--hatch-light);padding:12px"><span style="font-size:8px">PRINT — DETAIL</span></div>
+             </div>
+             <div style="margin-top:12px;font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:#9A9A9A">Print feature — scans</div>`}
+      </div>
+    </details>`;
+  const rows = PRESS_ALL.slice(0,5).map(pressBox).join('');
+  const rowsRest = PRESS_ALL.slice(5).map(pressBox).join('');
+  const rowsMore = rowsRest ? `
+    <details class="press-more">
+      <summary class="press-more-btn">Show all press (${PRESS_ALL.length})</summary>
+      <div style="margin-top:14px">${rowsRest}</div>
+    </details>` : '';
+  return `
+  <div>
+    <div class="pad-x" style="padding:64px 48px;text-align:center;border-bottom:1px solid #000000">
+      <div style="font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:#111111;margin-bottom:20px">News · Press</div>
+      <h1 style="font-size:42px;line-height:1.1;text-transform:uppercase;letter-spacing:0.01em;margin:0 auto 22px;max-width:1000px">In the press</h1>
+      <p class="prose" style="max-width:640px;margin:0 auto">Discover articles about Jules Wabbes’ universe in architecture and design magazines. From features on individual pieces to retrospectives on his interiors, the international press continues to document his lasting influence on Belgian design.</p>
+    </div>
+
+    <div class="pad-x" style="padding:40px 48px 14px"><div style="max-width:1140px;margin:0 auto">
+      <div class="lnk" data-go="story" style="font-size:11px;letter-spacing:0.18em;font-weight:700;text-transform:uppercase;color:#111111;display:inline-block;border-bottom:1px solid #111111;padding-bottom:6px;margin-bottom:40px">← Back to Our Story</div>
+      <h2 style="font-size:22px;margin:0 0 26px;text-transform:uppercase;letter-spacing:0.01em">Featured</h2>
+    </div></div>
+    <div class="pad-x" style="padding:0 48px 56px"><div class="exh-past">${feat}</div></div>
+
+    <div class="pad-x" style="padding:14px 48px 90px;border-top:1px solid #000000"><div style="max-width:1140px;margin:0 auto">
+      <h2 style="font-size:22px;margin:40px 0 26px;text-transform:uppercase;letter-spacing:0.01em">All press</h2>
+      <div>${rows}${rowsMore}</div>
+    </div></div>
+  </div>`;
+}
+function pageNews(){
+  if(state.news==='exhibitions') return pageExhibitions();
+  if(state.news==='auction') return pageAuction();
+  if(state.news==='press') return pagePress();
+  const n = NEWS.find(x=>x.key===state.news) || NEWS[0];
+  return `
+  <div>
+    <div class="pad-x" style="padding:64px 48px;text-align:center;border-bottom:1px solid #000000">
+      <div style="font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:#111111;margin-bottom:20px">News · ${n.date}</div>
+      <h1 style="font-size:42px;line-height:1.1;text-transform:uppercase;letter-spacing:0.01em;margin:0 auto;max-width:1000px">${n.title}</h1>
+    </div>
+    <div class="ph pad-x" style="height:46vh;min-height:340px;background-color:#E8E8E8;padding:28px 48px;border-bottom:1px solid #000000"><span style="font-size:10px;color:#111111">${n.shot}</span></div>
+    <div class="pad-x" style="max-width:760px;margin:0 auto;padding:60px 40px 110px">
+      <div class="lnk" data-go="story" style="font-size:11px;letter-spacing:0.18em;font-weight:700;text-transform:uppercase;color:#111111;margin-bottom:40px;display:inline-block;border-bottom:1px solid #111111;padding-bottom:6px">← Back to Our Story</div>
+      ${n.body.map(t=>`<p class="prose" style="margin:0 0 24px">${t}</p>`).join('')}
+    </div>
+  </div>`;
+}
+
+/* ============================================================
+   JOURNAL
+   ============================================================ */
+function pageJournal(){
+  const f = PROJECTS[0];
+  const all = PROJECTS.slice(1,4).map(p=>`
+    <div class="card" data-project="${p.key}" style="flex:1;border-right:1px solid #000000;display:flex;flex-direction:column">
+      <div class="ph" style="aspect-ratio:4/5;background-color:#E8E8E8;padding:16px"><span style="font-size:9px">${p.shot}</span></div>
+      <div style="padding:30px 28px;border-top:1px solid #000000;display:flex;flex-direction:column;flex:1">
+        <div style="font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:#111111">${p.badge}</div>
+        <div class="name" style="font-family:'CompactaLetPlain','Compacta',sans-serif;font-size:24px;line-height:1.05;margin-top:10px;text-transform:uppercase">${p.title}</div>
+        <div style="font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:#111111;margin-top:8px">${p.meta}</div>
+        <p class="prose" style="font-size:14px;margin:16px 0 0">${p.desc}</p>
+      </div>
+    </div>`).join('');
+  return `
+  <div>
+    <div class="pad-x" style="padding:92px 48px;text-align:center;border-bottom:1px solid #000000">
+      <div style="font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:#111111;margin-bottom:24px">Journal</div>
+      <h1 style="font-size:38px;line-height:1.14;text-transform:uppercase;letter-spacing:0.01em;margin:0 auto;max-width:1100px">Interior design projects featuring Jules Wabbes furniture</h1>
+    </div>
+
+    <div class="row-split card" data-project="${f.key}" style="display:flex;align-items:stretch;border-bottom:1px solid #000000">
+      <div class="ph" style="flex:0 0 50%;min-height:560px;background-color:#111111;background-image:var(--hatch-dark);padding:20px"><span style="font-size:10px;color:#9A958B">${f.shot}</span></div>
+      <div class="pad-x" style="flex:1;padding:110px 80px;display:flex;flex-direction:column;justify-content:center">
+        <div style="font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:#111111;margin-bottom:18px">${f.badge}</div>
+        <h2 style="font-size:36px;line-height:1.12;margin:0 0 8px;text-transform:uppercase;letter-spacing:0.01em">${f.title}</h2>
+        <div style="font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#111111;margin-bottom:24px">${f.meta}</div>
+        <p class="prose" style="margin:0 0 28px;max-width:520px">${f.desc}</p>
+        <span class="lnk" style="font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:#000000;border-bottom:1px solid #000000;align-self:flex-start;padding-bottom:4px">Discover the project</span>
+      </div>
+    </div>
+
+    ${sectionBar('All projects')}
+    <div class="cats" style="display:flex;border-bottom:1px solid #000000">${all}</div>
+  </div>`;
+}
+
+/* project detail page */
+function pageProject(){
+  const p = PROJECTS.find(x=>x.key===state.project) || PROJECTS[0];
+  return `
+  <div>
+    <div class="pad-x" style="padding:64px 48px;text-align:center;border-bottom:1px solid #000000">
+      <div style="font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:#111111;margin-bottom:20px">${p.badge} · ${p.meta}</div>
+      <h1 style="font-size:42px;line-height:1.1;text-transform:uppercase;letter-spacing:0.01em;margin:0 auto;max-width:1000px">${p.title}</h1>
+    </div>
+    <div class="ph pad-x" style="height:56vh;min-height:380px;background-color:#E8E8E8;padding:28px 48px;border-bottom:1px solid #000000"><span style="font-size:10px;color:#111111">${p.shot}</span></div>
+    <div class="pad-x" style="max-width:760px;margin:0 auto;padding:60px 40px 110px">
+      <div class="lnk" data-go="journal" style="font-size:11px;letter-spacing:0.18em;font-weight:700;text-transform:uppercase;color:#111111;margin-bottom:40px;display:inline-block;border-bottom:1px solid #111111;padding-bottom:6px">← Back to Journal</div>
+      ${p.body.map(t=>`<p class="prose" style="margin:0 0 24px">${t}</p>`).join('')}
+    </div>
+  </div>`;
+}
+
+/* Caroline & Vincent Colet — detail page */
+function pageColet(){
+  const P = (t)=>`<p class="prose" style="margin:0 0 24px">${t}</p>`;
+  return `
+  <div>
+    <div class="pad-x" style="padding:64px 48px;text-align:center;border-bottom:1px solid #000000">
+      <div style="font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:#111111;margin-bottom:20px">Selection &amp; Curation · Production &amp; Direction</div>
+      <h1 style="font-size:42px;line-height:1.1;text-transform:uppercase;letter-spacing:0.01em;margin:0 auto;max-width:1000px">Caroline &amp; Vincent Colet</h1>
+    </div>
+    <div style="height:56vh;min-height:380px;border-bottom:1px solid #000000"><img src="images/caroline-vincent-colet-wide.jpg" alt="Caroline & Vincent Colet" style="width:100%;height:100%;object-fit:cover;object-position:center;display:block"/></div>
+    <div class="pad-x" style="max-width:760px;margin:0 auto;padding:60px 40px 110px">
+      <div class="lnk" data-go="story" style="font-size:11px;letter-spacing:0.18em;font-weight:700;text-transform:uppercase;color:#111111;margin-bottom:40px;display:inline-block;border-bottom:1px solid #111111;padding-bottom:6px">← Back to Our Story</div>
+      ${P('In March 2014, Caroline and Vincent Colet acquired General Decoration from Marie Wabbes and her children, becoming the stewards of the Jules Wabbes legacy.')}
+      ${P('Caroline graduated from the College of Art &amp; Design (CAD) in Brussels and worked as a set decorator in film. Vincent was an antiques dealer and a publisher of contemporary objects.')}
+      ${P('Together they rebuilt a network of Belgian craftsmen, with every piece made 100% in Belgium under the only official Jules Wabbes licences.')}
+      ${P('They work closely with Marie Ferran-Wabbes — Jules Wabbes’ daughter and an art historian — drawing on the family archives and original prototypes to faithfully reissue the collection.')}
+    </div>
+  </div>`;
+}
+
+/* ============================================================
+   RESOURCES
+   ============================================================ */
+function pageResources(){
+  const row = (title, sub, action) => `
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:20px;padding:22px 0;border-bottom:1px solid #111111">
+      <div style="min-width:0">
+        <div style="font-family:'CompactaLetPlain','Compacta',sans-serif;font-size:17px;line-height:1.1">${title}</div>
+        <div style="font-size:10px;letter-spacing:0.12em;color:#111111;margin-top:8px">${sub}</div>
+      </div>
+      <button class="btn-out" data-action="${action}" style="flex:none;font-size:10px;letter-spacing:0.16em;text-transform:uppercase;padding:10px 18px">${action==='download'?'DOWNLOAD':'REQUEST'}</button>
+    </div>`;
+  const cats = CATALOGUES.slice(0,4).map(c=>row(c.name,c.size,'download')).join('');
+  const catsRest = CATALOGUES.slice(4).map(c=>row(c.name,c.size,'download')).join('');
+  const catsMore = catsRest ? `
+    <details class="acc" style="border-top:none">
+      <summary>Show all catalogues (${CATALOGUES.length})</summary>
+      <div class="acc-body" style="padding:0">${catsRest}</div>
+    </details>` : '';
+  const files = FILES3D.map(c=>row(c.name,`${c.fmt} · On request`,'request')).join('');
+  return `
+  <div class="pad-x" style="max-width:1140px;margin:0 auto;padding:80px 40px 110px">
+    <div style="font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:#111111;margin-bottom:18px">RESOURCES — DOCUMENTS &amp; FILES FOR PROFESSIONALS</div>
+    <h1 style="font-size:42px;line-height:1.18;margin:0 0 64px;letter-spacing:-0.01em;white-space:nowrap">Catalogues, product sheets and 3D files for the trade</h1>
+    <div class="row-2" style="display:flex;gap:80px;align-items:flex-start">
+      <div style="flex:1;min-width:0">
+        <div style="font-size:12px;letter-spacing:0.2em;text-transform:uppercase;color:#000000;border-top:1px solid #000000;padding-top:22px;margin-bottom:6px">Catalogues</div>${cats}${catsMore}
+      </div>
+      <div style="flex:1;min-width:0">
+        <div style="font-size:12px;letter-spacing:0.2em;text-transform:uppercase;color:#000000;border-top:1px solid #000000;padding-top:22px;margin-bottom:6px">3D Files</div>${files}
+      </div>
+    </div>
+    <div style="background:#FFFFFF;color:#000000;border:1px solid #000000;margin-top:90px;padding:48px 56px 64px">
+      <div style="font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:#111111;margin-bottom:28px">NEWSLETTER</div>
+      <div class="row-split" style="display:flex;gap:48px;align-items:center;flex-wrap:wrap">
+        <h2 style="flex:1;min-width:260px;font-size:28px;line-height:1.15;margin:0;color:#000000">Stay informed of new reissues and projects</h2>
+        <div style="flex:1;min-width:280px;display:flex;align-items:center;border-bottom:1px solid #000000">
+          <input placeholder="Your email address" style="flex:1;background:transparent;border:none;outline:none;color:#000000;font-size:15px;padding:6px 0"/>
+          <button class="btn-ghost" data-action="subscribe" style="flex:none;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:#000000;padding:0 4px">SUBSCRIBE →</button>
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
+/* ============================================================
+   CONTACT
+   ============================================================ */
+function pageContact(){
+  const tabs = CONTACT_TABS.map((t,i)=>`<button data-contacttab="${i}" style="${tabStyle(state.contactTab===i)}">${t}</button>`).join('');
+  const field = (label,textarea)=>`
+    <div>
+      <label style="font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:#111111;display:block;margin-bottom:10px">${label}</label>
+      ${textarea?`<textarea rows="4" style="width:100%;background:transparent;border:none;border-bottom:1px solid #000000;outline:none;font-size:15px;padding:8px 0;color:#000000;resize:vertical"></textarea>`
+        :`<input style="width:100%;background:transparent;border:none;border-bottom:1px solid #000000;outline:none;font-size:15px;padding:8px 0;color:#000000"/>`}
+    </div>`;
+  const sideBlock = (title,body)=>`
+    <div style="font-family:'CompactaLetPlain','Compacta',sans-serif;font-size:19px;letter-spacing:0.02em;text-transform:uppercase;color:#000000;border-top:1px solid #111111;padding-top:18px">${title}</div>
+    <p class="prose" style="font-size:15px;margin:10px 0 26px">${body}</p>`;
+  const intro = state.contactTab===0
+    ? 'For collectors and private clients — pricing, availability and authentication of original Wabbes pieces.'
+    : 'For architects, interior designers and the trade — catalogues, 3D files and project support.';
+  const fields = state.contactTab===0
+    ? ['SUBJECT','FIRST NAME','LAST NAME','EMAIL','COUNTRY']
+    : ['SUBJECT','FIRST NAME','LAST NAME','EMAIL','COMPANY','VAT NUMBER','COUNTRY'];
+  return `
+  <div class="pad-x" style="max-width:1140px;margin:0 auto;padding:80px 40px 110px">
+    <div style="font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:#111111;margin-bottom:18px">CONTACT</div>
+    <h1 style="font-size:42px;line-height:1.18;margin:0 0 64px;max-width:620px;letter-spacing:-0.01em">Get in touch with General Decoration</h1>
+    <div class="row-split" style="display:flex;gap:80px;align-items:flex-start">
+      <div style="flex:1;background:#ECECEC;color:#000000;padding:44px 44px 48px">
+        <div style="display:flex;gap:36px;border-bottom:1px solid #000000;margin-bottom:24px">${CONTACT_TABS.map((t,i)=>`<button data-contacttab="${i}" style="font-size:11px;letter-spacing:0.16em;text-transform:uppercase;padding:14px 0;background:transparent;border:none;cursor:pointer;white-space:nowrap;color:${state.contactTab===i?'#000000':'#9A9A9A'};border-bottom:2px solid ${state.contactTab===i?'#000000':'transparent'}">${t}</button>`).join('')}</div>
+        <p style="font-size:15px;line-height:1.8;letter-spacing:0.6px;margin:0 0 36px;max-width:440px;color:#111111">${intro}</p>
+        <div style="display:flex;flex-direction:column;gap:26px">
+          ${fields.map(f=>field(f)).join('')}${field('MESSAGE',true)}
+          <button data-action="send" style="align-self:flex-start;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;padding:16px 36px;margin-top:8px;background:#000000;color:#FFFFFF;border:1px solid #000000;cursor:pointer">SEND MESSAGE</button>
+        </div>
+      </div>
+      <div style="flex:0 0 38%">
+        <div style="font-family:'CompactaLetPlain','Compacta',sans-serif;font-size:19px;letter-spacing:0.02em;text-transform:uppercase;color:#000000;border-top:1px solid #000000;padding-top:20px">SHOWROOM</div>
+        <p class="prose" style="font-size:15px;margin:14px 0 16px">5, Place Georges Brugmann<br/>1050 Brussels — by appointment only</p>
+        <details class="acc" style="border-top:none;margin-bottom:30px">
+          <summary style="border:1px solid #000000;padding:12px 16px">See the map</summary>
+          <div class="acc-body" style="padding-top:14px">
+            <div class="ph" style="aspect-ratio:3/2;background-color:#ECECEC;padding:14px"><span style="font-size:9px">MAP — PLACE GEORGES BRUGMANN</span></div>
+          </div>
+        </details>
+        ${sideBlock('GENERAL ENQUIRIES','info@juleswabbes.com<br/>+32 2 633 11 73')}
+        ${sideBlock('EXPERT ASSESSMENT','Authentication and valuation of original Wabbes pieces, quote on request.<br/>Marie Wabbes<br/>marieferranwabbes@gmail.com')}
+        ${sideBlock('RESTORATION','Restoration of brass, bronze and wengé.<br/>Olivier Delroisse — Art Restauration<br/>art-restauration@skynet.be<br/><span style="white-space:nowrap">+32 498 45 07 24</span>')}
+        ${sideBlock('GENERAL DECORATION SPRL','20, Route de Beaumont, 1380 Lasne <span style="white-space:nowrap">(no visits)</span><br/>VAT BE 0406 818 394')}
+      </div>
+    </div>
+
+    <div style="background:#FFFFFF;color:#000000;border:1px solid #000000;margin-top:90px;padding:48px 56px 64px">
+      <div style="font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:#111111;margin-bottom:28px">NEWSLETTER</div>
+      <div class="row-split" style="display:flex;gap:48px;align-items:center;flex-wrap:wrap">
+        <h2 style="flex:1;min-width:260px;font-size:28px;line-height:1.15;margin:0;color:#000000">Stay informed of new reissues and projects</h2>
+        <div style="flex:1;min-width:280px;display:flex;align-items:center;border-bottom:1px solid #000000">
+          <input placeholder="Your email address" style="flex:1;background:transparent;border:none;outline:none;color:#000000;font-size:15px;padding:6px 0"/>
+          <button class="btn-ghost" data-action="subscribe" style="flex:none;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:#000000;padding:0 4px">SUBSCRIBE →</button>
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
+/* ============================================================
+   RENDER + EVENTS
+   ============================================================ */
+const PAGES = { home:pageHome, collection:pageCollection, product:pageProduct, story:pageStory, storyFull:pageStoryFull, news:pageNews, journal:pageJournal, project:pageProject, colet:pageColet, resources:pageResources, contact:pageContact };
+function render(){
+  document.getElementById('app').innerHTML =
+    header() + '<main>' + (PAGES[state.page]||pageHome)() + '</main>' + footer();
+}
+const ACTIONS = {
+  enquire(){ go('contact'); },
+  download(){ toast('We will email this document to you at info@juleswabbes.com'); },
+  request(){ toast('Request received — we will be in touch at info@juleswabbes.com'); },
+  send(){ toast('Thank you — your message has been sent.'); },
+  subscribe(){ toast('Subscribed — thank you.'); }
+};
+document.addEventListener('click', e=>{
+  const t = e.target.closest('[data-go],[data-cat],[data-catsub],[data-open],[data-filter],[data-sub],[data-storytab],[data-storynav],[data-contacttab],[data-finish],[data-finishstep],[data-detailstoggle],[data-news],[data-project],[data-action],[data-href]');
+  if(!t) return;
+  if(t.dataset.href!==undefined){ window.open(t.dataset.href,'_blank','noopener'); return; }
+  if(t.dataset.action!==undefined){ (ACTIONS[t.dataset.action]||(()=>{}))(); return; }
+  if(t.dataset.go!==undefined) return go(t.dataset.go);
+  if(t.dataset.cat!==undefined) return goCat(t.dataset.cat);
+  if(t.dataset.open!==undefined) return open(+t.dataset.open);
+  if(t.dataset.finish!==undefined) return setState({finish:+t.dataset.finish}, true);
+  if(t.dataset.finishstep!==undefined){ const n=(PRODUCTS[state.ap].finishes||[]).length||1; return setState({finish:(state.finish + (+t.dataset.finishstep) + n)%n}, true); }
+  if(t.dataset.detailstoggle!==undefined) return setState({details:!state.details}, true);
+  if(t.dataset.catsub!==undefined){ const [c,s]=t.dataset.catsub.split('|'); return setState({page:'collection',filter:c,sub:s}); }
+  if(t.dataset.storynav!==undefined){
+    const i=+t.dataset.storynav;
+    const SEC=['sec-jw','sec-gd','sec-colet','sec-craft','sec-news'];
+    setState({page:'story', storyTab:i});
+    requestAnimationFrame(()=>{ const el=document.getElementById(SEC[i]); if(el) el.scrollIntoView({behavior:'smooth',block:'start'}); });
+    return;
+  }
+  if(t.dataset.news!==undefined) return setState({page:'news', news:t.dataset.news});
+  if(t.dataset.project!==undefined) return setState({page:'project', project:t.dataset.project});
+  if(t.dataset.filter!==undefined) return setState({filter:t.dataset.filter, sub:firstSub(t.dataset.filter)});
+  if(t.dataset.sub!==undefined) return setState({sub:t.dataset.sub});
+  if(t.dataset.storytab!==undefined){
+    const i=+t.dataset.storytab;
+    const SEC=['sec-jw','sec-gd','sec-colet','sec-craft','sec-news'];
+    setState({storyTab:i}, true);
+    const el=document.getElementById(SEC[i]); if(el) el.scrollIntoView({behavior:'smooth',block:'start'});
+    return;
+  }
+  if(t.dataset.contacttab!==undefined) return setState({contactTab:+t.dataset.contacttab});
+});
+render();
+</script>
+</body>
+</html>
