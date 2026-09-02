@@ -1335,7 +1335,9 @@ function pageResources(){
     </div>`;
   const fileArchiveRow = (c) => `
     <div style="display:flex;align-items:center;gap:22px;padding:24px 40px">
-      <img src="${c.plan}" alt="${c.name}" loading="lazy" style="flex:none;width:44px;height:44px;object-fit:contain;border:1px solid #111111;background:#FFFFFF;padding:4px"/>
+      <div class="book-wrap" style="width:44px;flex:none">
+        <div class="book3d"><img src="${c.plan}" alt="${c.name}" loading="lazy"/></div>
+      </div>
       <div style="min-width:0;flex:1">
         <div style="font-family:'CompactaLetPlain','Compacta',sans-serif;font-size:16px;line-height:1.15">${c.name}</div>
         <div style="font-size:10px;letter-spacing:0.12em;color:#111111;margin-top:6px">${c.fmt} · On request</div>
