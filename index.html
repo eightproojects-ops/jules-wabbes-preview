@@ -1341,10 +1341,12 @@ function pageResources(){
       <h1 style="font-size:38px;line-height:1.14;text-transform:uppercase;letter-spacing:0.01em;margin:0 auto;max-width:1100px">Catalogues, product sheets and 3D files for the trade</h1>
     </div>
 
+    ${sectionBar('Catalogue')}
     ${heroBlock}
 
     ${state.catAcc ? catsList : ''}
 
+    ${sectionBar('3D Files')}
     ${fileHeroBlock}
 
     ${state.filesAcc ? filesList : ''}
