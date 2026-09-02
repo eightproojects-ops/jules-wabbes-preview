@@ -1322,15 +1322,15 @@ function pageResources(){
   const fileHero = FILES3D[0];
   const fileHeroBlock = `
     <div class="row-split" style="display:flex;align-items:stretch;border-bottom:1px solid #000000;flex-wrap:wrap">
-      <div style="position:relative;flex:0 0 50%;min-width:280px;min-height:720px;overflow:hidden;background-color:#111111;background-image:var(--hatch-dark)">
-        <span class="corner-tab" style="color:#FFFFFF;background:#000000;border-color:#FFFFFF">ALL FORMATS</span>
-        <img src="${fileHero.plan}" alt="${fileHero.name}" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top"/>
-      </div>
       <div class="pad-x" style="flex:1;min-width:280px;padding:110px 80px;display:flex;flex-direction:column;justify-content:center">
         <div style="font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:#111111;margin-bottom:18px">Every category, every format</div>
         <h2 style="font-size:36px;line-height:1.12;margin:0 0 8px;text-transform:uppercase;letter-spacing:0.01em">${fileHero.name}</h2>
         <div style="font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#111111;margin-bottom:28px">${fileHero.fmt} · On request</div>
         <button class="btn-out" data-action="request" style="align-self:flex-start;font-size:10px;letter-spacing:0.16em;text-transform:uppercase;padding:12px 22px">REQUEST</button>
+      </div>
+      <div style="position:relative;flex:0 0 50%;min-width:280px;min-height:720px;overflow:hidden;background-color:#111111;background-image:var(--hatch-dark)">
+        <span class="corner-tab" style="color:#FFFFFF;background:#000000;border-color:#FFFFFF">ALL FORMATS</span>
+        <img src="${fileHero.plan}" alt="${fileHero.name}" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top"/>
       </div>
     </div>`;
   const fileArchiveRow = (c) => `
