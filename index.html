@@ -295,26 +295,26 @@ const CRAFT = [
   {label:'WOOD', sub:'WOOD', text:'Dense-grained solid wengé, selected and worked for its depth and warmth.'}
 ];
 const CATALOGUES = [
-  {name:'General Catalogue', size:'PDF'},
-  {name:'Round Tables Catalogue', size:'PDF'},
-  {name:'Trestles & Slatted Coat Rack Catalogue', size:'PDF'},
-  {name:'Door Pull Handles Catalogue', size:'PDF'},
-  {name:'Handles Catalogue', size:'PDF'},
-  {name:'Bronze Catalogue', size:'PDF'},
-  {name:'Brass Catalogue', size:'PDF'},
-  {name:'Exterior Lamps Catalogue', size:'PDF'},
-  {name:'Fire Accessories Catalogue', size:'PDF'},
-  {name:'Hexagonal Table Lamps Catalogue', size:'PDF'},
-  {name:'Honeycomb Lamps Catalogue', size:'PDF'},
-  {name:'Sofas Catalogue', size:'PDF'},
-  {name:'Gérard Philipe Writing Table Catalogue', size:'PDF'},
-  {name:'Ceiling Lamps Catalogue', size:'PDF'}
+  {name:'General Catalogue', size:'PDF', cover:'images/catalogues/general.jpg'},
+  {name:'Round Tables Catalogue', size:'PDF', cover:'images/catalogues/round-tables.jpg'},
+  {name:'Trestles & Slatted Coat Rack Catalogue', size:'PDF', cover:'images/catalogues/trestles-coat-rack.jpg'},
+  {name:'Door Pull Handles Catalogue', size:'PDF', cover:'images/catalogues/door-pull-handles.jpg'},
+  {name:'Handles Catalogue', size:'PDF', cover:'images/catalogues/handles.jpg'},
+  {name:'Bronze Catalogue', size:'PDF', cover:'images/catalogues/bronze.jpg'},
+  {name:'Brass Catalogue', size:'PDF', cover:'images/catalogues/brass.jpg'},
+  {name:'Exterior Lamps Catalogue', size:'PDF', cover:'images/catalogues/exterior-lamps.jpg'},
+  {name:'Fire Accessories Catalogue', size:'PDF', cover:'images/catalogues/fire-accessories.jpg'},
+  {name:'Hexagonal Table Lamps Catalogue', size:'PDF', cover:'images/catalogues/hexagonal-table-lamps.jpg'},
+  {name:'Honeycomb Lamps Catalogue', size:'PDF', cover:'images/catalogues/honeycomb-lamps.jpg'},
+  {name:'Sofas Catalogue', size:'PDF', cover:'images/catalogues/sofas.jpg'},
+  {name:'Gérard Philipe Writing Table Catalogue', size:'PDF', cover:'images/catalogues/gerard-philipe-writing-table.jpg'},
+  {name:'Ceiling Lamps Catalogue', size:'PDF', cover:'images/catalogues/ceiling-lamps.jpg'}
 ];
 const FILES3D = [
-  {name:'Full collection', fmt:'DWG / OBJ'},
-  {name:'Lighting', fmt:'DWG / OBJ / IES'},
-  {name:'Furniture', fmt:'DWG / OBJ'},
-  {name:'Handles', fmt:'DWG / OBJ'}
+  {name:'Full collection', fmt:'DWG / OBJ', plan:'images/3d-files/full-collection.jpg'},
+  {name:'Lighting', fmt:'DWG / OBJ / IES', plan:'images/3d-files/lighting.jpg'},
+  {name:'Furniture', fmt:'DWG / OBJ', plan:'images/3d-files/furniture.jpg'},
+  {name:'Handles', fmt:'DWG / OBJ', plan:'images/3d-files/handles.jpg'}
 ];
 const STORY_TABS = ['JULES WABBES','GENERAL DECORATION','CAROLINE & VINCENT COLET','CRAFTSMANSHIP','NEWS'];
 const NEWS = [
@@ -1255,22 +1255,23 @@ function pageColet(){
    RESOURCES
    ============================================================ */
 function pageResources(){
-  const row = (title, sub, action) => `
-    <div style="display:flex;justify-content:space-between;align-items:center;gap:20px;padding:22px 0;border-bottom:1px solid #111111">
-      <div style="min-width:0">
+  const row = (title, sub, action, img, fit) => `
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:18px;padding:22px 0;border-bottom:1px solid #111111">
+      <img src="${img}" alt="${title}" loading="lazy" style="flex:none;width:52px;height:70px;object-fit:${fit||'cover'};object-position:center;border:1px solid #111111;background:#FFFFFF"/>
+      <div style="min-width:0;flex:1">
         <div style="font-family:'CompactaLetPlain','Compacta',sans-serif;font-size:17px;line-height:1.1">${title}</div>
         <div style="font-size:10px;letter-spacing:0.12em;color:#111111;margin-top:8px">${sub}</div>
       </div>
       <button class="btn-out" data-action="${action}" style="flex:none;font-size:10px;letter-spacing:0.16em;text-transform:uppercase;padding:10px 18px">${action==='download'?'DOWNLOAD':'REQUEST'}</button>
     </div>`;
-  const cats = CATALOGUES.slice(0,4).map(c=>row(c.name,c.size,'download')).join('');
-  const catsRest = CATALOGUES.slice(4).map(c=>row(c.name,c.size,'download')).join('');
+  const cats = CATALOGUES.slice(0,4).map(c=>row(c.name,c.size,'download',c.cover)).join('');
+  const catsRest = CATALOGUES.slice(4).map(c=>row(c.name,c.size,'download',c.cover)).join('');
   const catsMore = catsRest ? `
     <details class="acc" style="border-top:none">
       <summary>Show all catalogues (${CATALOGUES.length})</summary>
       <div class="acc-body" style="padding:0">${catsRest}</div>
     </details>` : '';
-  const files = FILES3D.map(c=>row(c.name,`${c.fmt} · On request`,'request')).join('');
+  const files = FILES3D.map(c=>row(c.name,`${c.fmt} · On request`,'request',c.plan,'contain')).join('');
   return `
   <div class="pad-x" style="max-width:1140px;margin:0 auto;padding:80px 40px 110px">
     <div style="font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:#111111;margin-bottom:18px">RESOURCES — DOCUMENTS &amp; FILES FOR PROFESSIONALS</div>
