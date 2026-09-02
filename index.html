@@ -1300,7 +1300,7 @@ function pageResources(){
       </div>
     </div>`;
   const archiveRow = (c) => `
-    <div style="display:flex;align-items:center;gap:22px;padding:22px 28px">
+    <div style="display:flex;align-items:center;gap:22px;padding:24px 40px">
       <div class="book-wrap" style="width:44px;flex:none">
         <div class="book3d"><img src="${c.cover}" alt="${c.name}" loading="lazy"/></div>
       </div>
@@ -1310,7 +1310,7 @@ function pageResources(){
       </div>
       <button class="btn-out" data-action="download" style="flex:none;font-size:10px;letter-spacing:0.16em;text-transform:uppercase;padding:10px 18px">DOWNLOAD</button>
     </div>`;
-  const catsList = `<div class="pad-x" style="padding:0 48px"><div class="cat-grid">${CATALOGUES.slice(1).map(c=>archiveRow(c)).join('')}</div></div>`;
+  const catsList = `<div class="cat-grid">${CATALOGUES.slice(1).map(c=>archiveRow(c)).join('')}</div>`;
   const chev = `<svg class="chev" width="20" height="11" viewBox="0 0 20 11" fill="none" stroke="#000000" stroke-width="1.4" stroke-linecap="square" stroke-linejoin="miter" xmlns="http://www.w3.org/2000/svg"><path d="M1 1 L10 10 L19 1"/></svg>`;
   const catalogueAcc = `
     <details class="sec-acc">
