@@ -1309,7 +1309,9 @@ function pageResources(){
       </div>
       <button class="btn-out" data-action="download" style="flex:none;font-size:10px;letter-spacing:0.16em;text-transform:uppercase;padding:10px 18px">DOWNLOAD</button>
     </div>`;
-  const catsList = `<div class="cat-grid">${CATALOGUES.slice(1).map(c=>archiveRow(c)).join('')}</div>`;
+  const gridClose = (n) => n % 2 ? '<div></div>' : '';
+  const catRows = CATALOGUES.slice(1);
+  const catsList = `<div class="cat-grid">${catRows.map(c=>archiveRow(c)).join('')}${gridClose(catRows.length)}</div>`;
   const fileHero = FILES3D[0];
   const fileHeroBlock = `
     <div class="row-split" style="display:flex;align-items:stretch;border-bottom:1px solid #000000;flex-wrap:wrap">
@@ -1333,7 +1335,8 @@ function pageResources(){
       </div>
       <button class="btn-out" data-action="request" style="flex:none;font-size:10px;letter-spacing:0.16em;text-transform:uppercase;padding:10px 18px">REQUEST</button>
     </div>`;
-  const filesList = `<div class="cat-grid">${FILES3D.slice(1).map(c=>fileArchiveRow(c)).join('')}</div>`;
+  const fileRows = FILES3D.slice(1);
+  const filesList = `<div class="cat-grid">${fileRows.map(c=>fileArchiveRow(c)).join('')}${gridClose(fileRows.length)}</div>`;
   return `
   <div>
     <div class="pad-x" style="padding:92px 48px;text-align:center;border-bottom:1px solid #000000">
