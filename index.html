@@ -1318,16 +1318,39 @@ function pageResources(){
       </summary>
       <div>${catsList}</div>
     </details>`;
-  const row = (title, sub, action, img, fit) => `
-    <div class="pad-x" style="display:flex;justify-content:space-between;align-items:center;gap:18px;padding:22px 48px;border-bottom:1px solid #000000">
-      <img src="${img}" alt="${title}" loading="lazy" style="flex:none;width:52px;height:70px;object-fit:${fit||'cover'};object-position:center;border:1px solid #111111;background:#FFFFFF"/>
-      <div style="min-width:0;flex:1">
-        <div style="font-family:'CompactaLetPlain','Compacta',sans-serif;font-size:17px;line-height:1.1">${title}</div>
-        <div style="font-size:10px;letter-spacing:0.12em;color:#111111;margin-top:8px">${sub}</div>
+  const fileHero = FILES3D[0];
+  const fileHeroBlock = `
+    <div class="row-split" style="display:flex;align-items:stretch;border-bottom:1px solid #000000;flex-wrap:wrap">
+      <div style="position:relative;flex:0 0 50%;min-width:280px;min-height:560px;display:flex;align-items:center;justify-content:center;background-color:#111111;background-image:var(--hatch-dark);padding:40px">
+        <span class="corner-tab" style="color:#FFFFFF;background:#000000;border-color:#FFFFFF">ALL FORMATS</span>
+        <img src="${fileHero.plan}" alt="${fileHero.name}" loading="lazy" style="width:56%;max-width:260px;object-fit:contain;box-shadow:0 22px 34px -14px rgba(0,0,0,.6)"/>
       </div>
-      <button class="btn-out" data-action="${action}" style="flex:none;font-size:10px;letter-spacing:0.16em;text-transform:uppercase;padding:10px 18px">${action==='download'?'DOWNLOAD':'REQUEST'}</button>
+      <div class="pad-x" style="flex:1;min-width:280px;padding:110px 80px;display:flex;flex-direction:column;justify-content:center">
+        <div style="font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:#111111;margin-bottom:18px">${num(0)} — Every category, every format</div>
+        <h2 style="font-size:36px;line-height:1.12;margin:0 0 8px;text-transform:uppercase;letter-spacing:0.01em">${fileHero.name}</h2>
+        <div style="font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#111111;margin-bottom:28px">${fileHero.fmt} · On request</div>
+        <button class="btn-out" data-action="request" style="align-self:flex-start;font-size:10px;letter-spacing:0.16em;text-transform:uppercase;padding:12px 22px">REQUEST</button>
+      </div>
     </div>`;
-  const files = FILES3D.map(c=>row(c.name,`${c.fmt} · On request`,'request',c.plan,'contain')).join('');
+  const fileArchiveRow = (c, i) => `
+    <div class="pad-x" style="display:flex;align-items:center;gap:22px;padding:18px 48px;border-bottom:1px solid #000000">
+      <div style="flex:none;width:34px;font-size:10px;letter-spacing:0.06em;color:#9A9A9A">${num(i)}</div>
+      <img src="${c.plan}" alt="${c.name}" loading="lazy" style="flex:none;width:44px;height:44px;object-fit:contain;border:1px solid #111111;background:#FFFFFF;padding:4px"/>
+      <div style="min-width:0;flex:1">
+        <div style="font-family:'CompactaLetPlain','Compacta',sans-serif;font-size:16px;line-height:1.15">${c.name}</div>
+        <div style="font-size:10px;letter-spacing:0.12em;color:#111111;margin-top:6px">${c.fmt} · On request</div>
+      </div>
+      <button class="btn-out" data-action="request" style="flex:none;font-size:10px;letter-spacing:0.16em;text-transform:uppercase;padding:10px 18px">REQUEST</button>
+    </div>`;
+  const filesList = FILES3D.slice(1).map((c,i)=>fileArchiveRow(c,i+1)).join('');
+  const filesAcc = `
+    <details class="sec-acc">
+      <summary>
+        <h2 style="font-size:38px;line-height:1;margin:0;text-transform:uppercase;letter-spacing:0.01em">3D Files</h2>
+        ${chev}
+      </summary>
+      <div>${filesList}</div>
+    </details>`;
   return `
   <div>
     <div class="pad-x" style="padding:92px 48px;text-align:center;border-bottom:1px solid #000000">
@@ -1339,8 +1362,9 @@ function pageResources(){
 
     ${catalogueAcc}
 
-    ${sectionBar('3D Files')}
-    <div>${files}</div>
+    ${fileHeroBlock}
+
+    ${filesAcc}
 
     <div class="pad-x" style="padding:64px 48px;display:flex;gap:48px;align-items:center;flex-wrap:wrap">
       <h2 style="flex:1;min-width:260px;font-size:28px;line-height:1.15;margin:0;color:#000000;text-transform:none">Stay informed of new reissues and projects</h2>
