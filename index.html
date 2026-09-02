@@ -59,6 +59,13 @@
   .acc[open] summary::after{content:'–'}
   .acc summary:hover{color:var(--hover)}
   .acc-flush > .acc{border-top:none}
+  /* Section accordion (chevron) — collapsible list under a sectionBar-style heading */
+  .sec-acc summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;
+    padding:26px 48px;border-bottom:1px solid #000000}
+  .sec-acc summary::-webkit-details-marker{display:none}
+  .sec-acc summary .chev{flex:none;margin-left:24px;transition:transform .25s ease}
+  .sec-acc[open] summary .chev{transform:rotate(180deg)}
+  .sec-acc summary:hover .chev{opacity:0.6}
   .spec-table > div:last-child{border-bottom:none!important}
   .rel-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:1px solid #000;border-left:1px solid #000;border-right:1px solid #000}
   .rel-grid > *{border-right:1px solid #000;border-bottom:1px solid #000}
@@ -1302,6 +1309,15 @@ function pageResources(){
       <button class="btn-out" data-action="download" style="flex:none;font-size:10px;letter-spacing:0.16em;text-transform:uppercase;padding:10px 18px">DOWNLOAD</button>
     </div>`;
   const catsList = CATALOGUES.slice(1).map((c,i)=>archiveRow(c,i+1)).join('');
+  const chev = `<svg class="chev" width="20" height="11" viewBox="0 0 20 11" fill="none" stroke="#000000" stroke-width="1.4" stroke-linecap="square" stroke-linejoin="miter" xmlns="http://www.w3.org/2000/svg"><path d="M1 1 L10 10 L19 1"/></svg>`;
+  const catalogueAcc = `
+    <details class="sec-acc">
+      <summary>
+        <h2 style="font-size:38px;line-height:1;margin:0;text-transform:uppercase;letter-spacing:0.01em">Catalogues</h2>
+        ${chev}
+      </summary>
+      <div>${catsList}</div>
+    </details>`;
   const row = (title, sub, action, img, fit) => `
     <div class="pad-x" style="display:flex;justify-content:space-between;align-items:center;gap:18px;padding:22px 48px;border-bottom:1px solid #000000">
       <img src="${img}" alt="${title}" loading="lazy" style="flex:none;width:52px;height:70px;object-fit:${fit||'cover'};object-position:center;border:1px solid #111111;background:#FFFFFF"/>
@@ -1321,8 +1337,7 @@ function pageResources(){
 
     ${heroBlock}
 
-    ${sectionBar('Catalogues')}
-    <div>${catsList}</div>
+    ${catalogueAcc}
 
     ${sectionBar('3D Files')}
     <div>${files}</div>
