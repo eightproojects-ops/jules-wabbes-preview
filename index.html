@@ -1322,14 +1322,11 @@ function pageResources(){
       </div>
       <div style="position:relative;flex:0 0 50%;min-width:280px;min-height:720px;overflow:hidden;background-color:#111111;background-image:var(--hatch-dark)">
         <span class="corner-tab" style="color:#FFFFFF;background:#000000;border-color:#FFFFFF">ALL FORMATS</span>
-        <img src="${fileHero.plan}" alt="${fileHero.name}" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top"/>
       </div>
     </div>`;
   const fileArchiveRow = (c) => `
     <div style="display:flex;align-items:center;gap:22px;padding:24px 40px">
-      <div class="book-wrap" style="width:44px;flex:none">
-        <div class="book3d"><img src="${c.plan}" alt="${c.name}" loading="lazy"/></div>
-      </div>
+      <div style="width:44px;height:44px;flex:none;background-color:#111111;background-image:var(--hatch-dark)"></div>
       <div style="min-width:0;flex:1">
         <div style="font-family:'CompactaLetPlain','Compacta',sans-serif;font-size:16px;line-height:1.15">${c.name}</div>
         <div style="font-size:10px;letter-spacing:0.12em;color:#111111;margin-top:6px">${c.fmt} · On request</div>
