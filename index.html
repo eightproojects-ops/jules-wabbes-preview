@@ -1281,7 +1281,6 @@ function pageColet(){
    RESOURCES
    ============================================================ */
 function pageResources(){
-  const num = (i) => 'N°' + String(i+1).padStart(2,'0');
   const hero = CATALOGUES[0];
   const heroBlock = `
     <div class="row-split" style="display:flex;align-items:stretch;border-bottom:1px solid #000000;flex-wrap:wrap">
@@ -1328,15 +1327,14 @@ function pageResources(){
         <img src="${fileHero.plan}" alt="${fileHero.name}" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top"/>
       </div>
       <div class="pad-x" style="flex:1;min-width:280px;padding:110px 80px;display:flex;flex-direction:column;justify-content:center">
-        <div style="font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:#111111;margin-bottom:18px">${num(0)} — Every category, every format</div>
+        <div style="font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:#111111;margin-bottom:18px">Every category, every format</div>
         <h2 style="font-size:36px;line-height:1.12;margin:0 0 8px;text-transform:uppercase;letter-spacing:0.01em">${fileHero.name}</h2>
         <div style="font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#111111;margin-bottom:28px">${fileHero.fmt} · On request</div>
         <button class="btn-out" data-action="request" style="align-self:flex-start;font-size:10px;letter-spacing:0.16em;text-transform:uppercase;padding:12px 22px">REQUEST</button>
       </div>
     </div>`;
-  const fileArchiveRow = (c, i) => `
-    <div class="pad-x" style="display:flex;align-items:center;gap:22px;padding:18px 48px;border-bottom:1px solid #000000">
-      <div style="flex:none;width:34px;font-size:10px;letter-spacing:0.06em;color:#9A9A9A">${num(i)}</div>
+  const fileArchiveRow = (c) => `
+    <div style="display:flex;align-items:center;gap:22px;padding:24px 40px">
       <img src="${c.plan}" alt="${c.name}" loading="lazy" style="flex:none;width:44px;height:44px;object-fit:contain;border:1px solid #111111;background:#FFFFFF;padding:4px"/>
       <div style="min-width:0;flex:1">
         <div style="font-family:'CompactaLetPlain','Compacta',sans-serif;font-size:16px;line-height:1.15">${c.name}</div>
@@ -1344,7 +1342,7 @@ function pageResources(){
       </div>
       <button class="btn-out" data-action="request" style="flex:none;font-size:10px;letter-spacing:0.16em;text-transform:uppercase;padding:10px 18px">REQUEST</button>
     </div>`;
-  const filesList = FILES3D.slice(1).map((c,i)=>fileArchiveRow(c,i+1)).join('');
+  const filesList = `<div class="cat-grid">${FILES3D.slice(1).map(c=>fileArchiveRow(c)).join('')}</div>`;
   const filesAcc = `
     <details class="sec-acc">
       <summary>
